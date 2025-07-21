@@ -1,0 +1,20 @@
+/* 공통 레이아웃 */
+* { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0;}
+
+.section{ margin: 40px auto; padding:120px; height: 300px; line-height: 60px;}   
+
+.support{margin-top: 35px;}
+.sup_title h1 { font-size: 35px; text-align: center; color: #333;}
+
+/* 탭 버튼 스타일 */
+.tabs { width: 550px; margin: 0 auto;margin-top: 45px; text-align: center;}
+
+
+.tab {width: 120px; height: 50px; border: 1px solid #ccc; background-color: #fff; color: #333; cursor: pointer; border-radius: 25px; transition: all 0.3s ease; font-size: 16px; font-weight: 600;}
+.tab:hover {background-color: #000; color: #fff;transition: 0.3s;}
+
+.mid_btn{margin: 0 45px;}
+
+
+/* fade */
+#fade1, #fade2, #fade3{display: none;}

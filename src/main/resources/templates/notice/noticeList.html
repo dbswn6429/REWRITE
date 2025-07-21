@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="/css/user/notice.css" th:href="@{/css/user/notice.css}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Font Awesome (아이콘 사용 시) -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+    <section class="section" id="wrap">
+        <div class="container">
+
+            <h2 class="page-title">공지사항</h2>
+
+            <ul class="notice-list">
+                <li th:each="notice : ${noticePage.content}" th:class="notice-item">
+                    <a th:href="@{/notice/noticeDetail(page=${noticePage.number}, noticeId=${notice.noticeId})}"
+                        class="notice-link">
+                        <div class="notice-content">
+                            <span th:text="${notice.title}" class="notice-title">공지 제목</span>
+                            <span th:text="${#temporals.format(notice.regDate, 'yyyy.MM.dd')}"
+                                class="notice-date">2025.04.11</span>
+                        </div>
+                        <span class="notice-arrow">></span>
+                    </a>
+                </li>
+
+            </ul>
+
+            <div class="pagination">
+                <a th:href="${noticePage.first} ? '#' : @{/notice/noticeList(page=${noticePage.number - 1})}"
+                    class="page-link" th:classappend="${noticePage.first} ? 'disabled'"> ← Prev </a>
+                <th:block th:each="pageNumber : ${#numbers.sequence(startIdx, endIdx)}">
+                    <!--현재 페이지만 클릭 안되게-->
+                    <span th:if="${pageNumber == pageNow}" class="page-link current-page"
+                        th:text="${pageNumber}"></span>
+                    <!--나머지는 클릭 되게-->
+                    <a th:unless="${pageNumber == pageNow}" th:href="@{/notice/noticeList(page=${pageNumber - 1})}"
+                        class="page-link" th:text="${pageNumber}"></a>
+                </th:block>
+                <a th:href="${noticePage.last} ? '#' : @{/notice/noticeList(page=${noticePage.number + 1})}"
+                    class="page-link" th:classappend="${noticePage.last} ? 'disabled'">
+                    Next →
+                </a>
+            </div>
+        </div>
+    </section>
+</body>
+</th:block>

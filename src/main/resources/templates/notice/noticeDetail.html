@@ -1,0 +1,61 @@
+<link rel="stylesheet" href="/css/user/noticeDetail.css" th:href="@{/css/user/noticeDetail.css}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+    <section class="section" id="wrap">
+        <div class="container notice-detail-container">
+
+            <h2 class="page-title">공지사항</h2>
+
+            <div class="detail-section">
+                <div class="detail-label">제목</div>
+                <!-- th:text를 사용하여 제목 출력 (HTML 태그 escape) -->
+                <div class="detail-content subject-content" th:text="${dto.title}">
+                    공지사항 제목 예시
+                </div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-label">내용</div>
+                <!--
+          내용 출력 방식 선택:
+
+          방법 1: CSS white-space 사용 (권장 - 더 깔끔)
+             - CSS 파일의 .main-content 클래스에 white-space: pre-line; 또는 pre-wrap; 추가
+             - th:text 사용 (줄바꿈 문자(\n)가 CSS에 의해 처리됨)
+        -->
+                <div class="detail-content main-content">
+                    <th:block th:if="${dto.img != null and dto.img != ''}">
+                        <img th:src="${dto.img}" alt="공지사항 이미지" class="notice-image">
+                    </th:block>
+                    <p th:text="${dto.content}"></p>
+                </div>
+                <!--
+          방법 2: Thymeleaf 유틸리티로 \n을 <br>로 변환 (HTML에 <br> 직접 삽입)
+             - th:utext 사용 (HTML 태그 escape 안 함)
+             - CSS에 white-space 속성 불필요 (또는 normal)
+        <div class="detail-content main-content"
+             th:utext="${#strings.replace(notice.content, '\n', '<br />')}">
+             여기에 공지사항 내용이 표시됩니다. <br />
+             이 방식은 내용에 <br> 태그가 삽입됩니다.
+        </div>
+         -->
+            </div>
+            <div class="button-container">
+                <!-- 목록 링크에 th:href 사용 -->
+                <a href="/notice/noticeList" th:href="@{/notice/noticeList(page=${pageable.pageNumber})}"
+                    class="list-button">목록으로</a>
+            </div>
+
+            <form th:if="${session.user?.role == 'admin'}"
+                  th:action="@{/admin/noticeDelete/{noticeId}(noticeId=${dto.noticeId})}"
+                  method="post"
+                  style="display: inline; margin: 0; padding: 0;"
+                  onsubmit="return confirm('정말로 삭제하시겠습니까?');">
+
+                <button type="submit" class="delete-button">삭제</button>        <!-- 폼 제출 버튼, 클래스는 기존 링크와 동일하게 -->
+            </form>
+        </div>
+    </section>
+</body>
+</th:block>

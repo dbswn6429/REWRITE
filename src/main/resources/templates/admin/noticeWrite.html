@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>공지사항 작성</title>
+    <!-- 공통 CSS 및 폰트 포함 -->
+    <link rel="stylesheet" href="/css/common.css" th:href="@{/css/common.css}"> <!-- 공통 CSS 파일이 있다고 가정 -->
+    <link rel="stylesheet" href="/css/user/noticeWrite.css" th:href="@{/css/user/noticeWrite.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* 공통 스타일을 import 하거나 여기에 정의합니다. */
+        /* 예시: @import url('/css/common.css'); */
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif; /* 이전 페이지와 동일한 폰트 사용 */
+        }
+
+        .notice-write-container {
+            max-width: 800px; /* 필요에 따라 너비 조정 */
+            margin: 40px auto; /* 위아래 마진, 좌우 자동 중앙 정렬 */
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px; /* 모서리 둥글게 */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 1.8em; /* 제목 글자 크기 */
+            font-weight: 700; /* 제목 글자 굵기 */
+            margin-bottom: 30px; /* 제목 아래 여백 */
+            color: #333; /* 제목 색상 */
+        }
+
+        /* 폼 스타일링 */
+        #noticeForm {
+            display: flex;
+            flex-direction: column; /* 요소들을 세로로 배치 */
+            gap: 20px; /* 폼 그룹 사이의 간격 */
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column; /* 라벨과 입력 필드를 세로로 배치 */
+        }
+
+        .form-label {
+            font-weight: 700; /* 라벨 굵기 */
+            margin-bottom: 8px; /* 라벨 아래 여백 */
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        /* input, textarea 공통 스타일 */
+        .form-control,
+        .form-control-file {
+            padding: 10px 12px;
+            border: 1px solid #ccc; /* 테두리 */
+            border-radius: 4px; /* 모서리 둥글게 */
+            font-size: 1em;
+            font-family: 'Noto Sans KR', sans-serif; /* 폰트 상속 */
+            width: 100%; /* 너비 100% */
+            box-sizing: border-box; /* 패딩, 테두리를 너비에 포함 */
+        }
+
+        /* 포커스 시 스타일 */
+        .form-control:focus,
+        .form-control-file:focus {
+            border-color: #007bff; /* 파란색 테두리 */
+            outline: none; /* 기본 아웃라인 제거 */
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* 파란색 그림자 효과 */
+        }
+
+        textarea.form-control {
+            resize: vertical; /* 세로 크기 조절만 허용 */
+            min-height: 150px; /* 최소 높이 */
+        }
+
+        /* 파일 입력 필드 스타일 */
+        .form-control-file {
+            padding: 5px; /* 파일 입력은 패딩 약간 조정 */
+        }
+
+        /* 오류 메시지 스타일 */
+        .error-message {
+            color: #dc3545; /* 빨간색 */
+            font-size: 0.85em;
+            margin-top: 5px;
+            min-height: 1em; /* 메시지 없을 때도 공간 확보 */
+            display: block;
+        }
+
+        /* 이미지 미리보기 영역 스타일 */
+        #imagePreviewContainer {
+            border: 1px dashed #ccc; /* 점선 테두리 */
+            padding: 15px;
+            border-radius: 4px;
+            display: flex; /* 내부 요소(이미지, 버튼) 정렬 위해 flex 사용 */
+            align-items: center; /* 세로 중앙 정렬 */
+            gap: 10px; /* 이미지와 버튼 사이 간격 */
+        }
+
+        #imagePreview {
+            display: block;
+            max-width: 200px; /* 미리보기 최대 너비 */
+            max-height: 200px; /* 미리보기 최대 높이 */
+            border: 1px solid #eee;
+            object-fit: cover; /* 이미지 비율 유지하며 채우기 */
+        }
+
+        /* 버튼 컨테이너 스타일 */
+        .button-container {
+            display: flex;
+            justify-content: flex-end; /* 버튼들을 오른쪽으로 정렬 */
+            gap: 10px; /* 버튼 사이 간격 */
+            margin-top: 20px; /* 위쪽 여백 */
+            padding-top: 20px; /* 위쪽 패딩 */
+            border-top: 1px solid #eee; /* 구분선 */
+        }
+
+        /* 버튼 공통 스타일 */
+        .submit-button,
+        .cancel-button,
+        .remove-button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s ease; /* 부드러운 색상 변화 */
+        }
+
+        .submit-button {
+            background-color: #007bff; /* 파란색 */
+            color: white;
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3; /* 어두운 파란색 */
+        }
+
+        .cancel-button {
+            background-color: #6c757d; /* 회색 */
+            color: white;
+            text-align: center; /* a 태그 가운데 정렬 */
+        }
+
+        .cancel-button:hover {
+            background-color: #5a6268; /* 어두운 회색 */
+        }
+
+        .remove-button {
+            background-color: #dc3545; /* 빨간색 */
+            color: white;
+            font-size: 0.9em; /* 약간 작은 글씨 */
+            padding: 5px 10px;
+        }
+
+        .remove-button:hover {
+            background-color: #c82333; /* 어두운 빨간색 */
+        }
+    </style>
+</head>
+<body>
+
+<!-- 공통 레이아웃 include 사용 가정 -->
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+    <section class="section" id="wrap">
+        <div class="container notice-write-container">
+
+            <h2 class="page-title">공지사항 작성</h2>
+
+            <!--
+                폼(Form) 전송 설정:
+                - method="post": 데이터를 POST 방식으로 전송합니다.
+                - action="/notice/write": 서버에서 이 폼 데이터를 처리할 URL 경로입니다.
+                                          이 경로는 Spring Boot 컨트롤러에서 @PostMapping으로 매핑해야 합니다.
+                - enctype="multipart/form-data": 파일 업로드를 위해서는 **반드시** 필요합니다.
+                - id="noticeForm": JavaScript에서 폼을 쉽게 선택하기 위해 사용됩니다.
+             -->
+            <form id="noticeForm" th:action="@{/admin/write}" method="post" enctype="multipart/form-data">
+                <!-- 제목 입력 필드 -->
+                <div class="form-group">
+                    <label for="title" class="form-label">제목</label>
+                    <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력하세요" required maxlength="200">
+                    <span class="error-message" id="title-error"></span>
+                </div>
+
+                <!-- 내용 입력 필드 -->
+                <div class="form-group">
+                    <label for="content" class="form-label">내용</label>
+                    <textarea id="content" name="content" class="form-control" rows="10" placeholder="내용을 입력하세요" required></textarea>
+                    <span class="error-message" id="content-error"></span>
+                </div>
+
+                <!-- 이미지 첨부 필드 -->
+                <div class="form-group">
+                    <label for="imageFile" class="form-label">이미지 첨부 (선택)</label>
+                    <!-- 파일 입력은 그대로 두지만, 이 파일 자체를 메인 폼으로 보내진 않습니다. -->
+                    <input type="file" id="imageFile" class="form-control-file" accept="image/*">
+
+                    <!-- !!!! 추가 !!!!: 서버에서 받은 이미지 URL을 저장할 숨겨진 필드 -->
+                    <!-- name="img"는 Notice 엔티티의 필드명과 일치해야 합니다. -->
+                    <input type="hidden" id="imageUrlInput" name="img" value="">
+
+                    <!-- 이미지 미리보기 영역 -->
+                    <div id="imagePreviewContainer" style="margin-top: 10px; display: none;">
+                        <img id="imagePreview" src="#" alt="이미지 미리보기" style="max-width: 300px; max-height: 300px; border: 1px solid #ddd; padding: 5px;"/>
+                        <button type="button" id="removeImageBtn" class="remove-button" style="margin-left: 10px;">이미지 제거</button>
+                    </div>
+                    <span class="error-message" id="image-error"></span>
+                </div>
+
+                <!-- 버튼 영역 -->
+                <div class="button-container">
+                    <button type="submit" class="submit-button">등록</button>
+                    <a href="/notice/noticeList" th:href="@{/notice/noticeList}" class="cancel-button">취소</a>
+                </div>
+
+            </form>
+
+        </div> <!-- 컨테이너 종료 -->
+    </section> <!-- wrap 종료 -->
+</th:block>
+
+<!-- JavaScript 파일 포함 -->
+<script src="/js/user/noticeWrite.js" th:src="@{/js/user/noticeWrite.js}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // HTML 요소 가져오기
+        const noticeForm = document.getElementById('noticeForm');
+        const titleInput = document.getElementById('title');
+        const contentInput = document.getElementById('content');
+        const imageFileInput = document.getElementById('imageFile'); // 파일 선택 input
+        const imageUrlInput = document.getElementById('imageUrlInput'); // !!!! 추가 !!!!: 숨겨진 URL 저장 input
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const imagePreview = document.getElementById('imagePreview');
+        const removeImageBtn = document.getElementById('removeImageBtn');
+
+        // 오류 메시지 요소
+        const titleError = document.getElementById('title-error');
+        const contentError = document.getElementById('content-error');
+        const imageError = document.getElementById('image-error'); // 이미지 업로드 오류 표시
+
+        // --- 이미지 파일 선택 시 즉시 업로드 및 미리보기 ---
+        imageFileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            imageError.textContent = ''; // 이전 오류 메시지 초기화
+
+            if (!file) {
+                // 파일 선택 안 함 (취소 등)
+                resetImagePreview(); // 미리보기 초기화
+                return;
+            }
+
+            // FormData 객체 생성
+            const formData = new FormData();
+            formData.append('file', file); // 'file'은 서버의 @RequestParam("file")과 일치해야 함
+            formData.append('folderPath', 'notice'); // 서버에서 사용할 폴더 경로 (필요에 따라 변경)
+
+            // 로딩 표시 (선택 사항)
+            imageError.textContent = '이미지 업로드 중...';
+
+            // Fetch API를 사용하여 서버로 파일 업로드 요청
+            fetch('/api/files', { // 이미지 업로드 전용 API 엔드포인트
+                method: 'POST',
+                body: formData
+                // headers: { 'Content-Type': 'multipart/form-data' } // FormData 사용 시 보통 불필요
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        // 서버 응답이 실패 상태 코드일 경우 오류 처리
+                        return response.text().then(text => { // 오류 메시지가 text로 올 경우 대비
+                            throw new Error(`서버 오류 (${response.status}): ${text || '알 수 없는 오류'}`);
+                        });
+                    }
+                    return response.text(); // 성공 시, 응답 본문을 텍스트(이미지 URL)로 변환
+                })
+                .then(url => {
+                    // 업로드 성공 및 URL 수신
+                    imageError.textContent = ''; // 로딩 메시지 제거
+
+                    imagePreview.src = url; // 미리보기 이미지 소스 설정
+                    imageUrlInput.value = url; // !!!! 중요 !!!! 숨겨진 input에 URL 저장
+                    imagePreviewContainer.style.display = 'flex'; // 미리보기 컨테이너 표시
+                })
+                .catch(error => {
+                    // fetch 요청 또는 처리 중 오류 발생 시
+                    console.error('이미지 업로드 오류:', error);
+                    imageError.textContent = '업로드 실패: ' + error.message;
+                    resetImagePreview(); // 오류 발생 시 상태 초기화
+                });
+        });
+
+        // --- 이미지 제거 버튼 클릭 이벤트 ---
+        removeImageBtn.addEventListener('click', function() {
+            resetImagePreview();
+            // 선택 사항: 서버에 업로드된 이미지 삭제 요청을 보낼 수도 있음
+            // 예: fetch('/api/files/delete', { method: 'POST', body: JSON.stringify({imageUrl: imageUrlInput.value }), headers: {'Content-Type': 'application/json'} });
+        });
+
+        // --- 미리보기 및 관련 상태 초기화 함수 ---
+        function resetImagePreview() {
+            imageFileInput.value = ''; // 파일 선택 input 초기화
+            imagePreview.src = '#'; // 미리보기 이미지 초기화
+            imagePreviewContainer.style.display = 'none'; // 미리보기 컨테이너 숨김
+            imageUrlInput.value = ''; // !!!! 중요 !!!! 숨겨진 input 값 초기화
+            imageError.textContent = ''; // 오류 메시지 초기화
+        }
+
+        // --- 폼 제출 시 유효성 검사 ---
+        noticeForm.addEventListener('submit', function(event) {
+            let isValid = true;
+            titleError.textContent = '';
+            contentError.textContent = '';
+            // 이미지 필수는 아니므로 여기서는 검사 안함 (필요 시 imageUrlInput.value 확인)
+
+            // 제목 유효성 검사
+            if (titleInput.value.trim() === '') {
+                titleError.textContent = '제목을 입력해주세요.';
+                isValid = false;
+                if(isValid) titleInput.focus();
+            } else if (titleInput.value.length > 200) {
+                titleError.textContent = '제목은 200자 이내로 입력해주세요.';
+                isValid = false;
+                if(isValid) titleInput.focus();
+            }
+
+            // 내용 유효성 검사
+            if (contentInput.value.trim() === '') {
+                contentError.textContent = '내용을 입력해주세요.';
+                isValid = false;
+                if(isValid) contentInput.focus();
+            }
+
+            // 유효성 검사 실패 시 폼 제출 중단
+            if (!isValid) {
+                event.preventDefault();
+            }
+            // 유효하면 폼은 title, content, img (URL이 담긴 hidden input) 값을 가지고 제출됨
+        });
+
+    });
+</script>
+</body>
+</html>

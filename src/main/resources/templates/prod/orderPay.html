@@ -1,0 +1,132 @@
+<link rel="stylesheet" href="/css/prod/checkout.css">
+<script src="https://js.tosspayments.com/v2/standard"></script>
+<link rel="stylesheet" href="/css/prod/checkout.css" th:href="@{/css/prod/checkout.css}">
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+    <section id="wrap">
+        <div class="checkout-container">
+            <!-- 추가된 헤더 섹션 -->
+            <div class="checkout-header">  <!-- 제목과 단계 표시줄을 묶는 div -->
+                <h1>주문/결제</h1>
+                <nav aria-label="결제 진행 단계"> <!-- 단계별 네비게이션임을 나타내는 nav 태그 -->
+                    <ol class="checkout-progress"> <!-- 순서 있는 목록(ol)으로 단계 표시 -->
+                        <li>01 장바구니</li>
+                        <li class="current-step" aria-current="step">02 주문/결제</li> <!-- 현재 단계 표시 (클래스, aria 속성) -->
+                        <li>03 주문완료</li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- // 추가된 헤더 섹션 끝 -->
+
+            <!-- 배송지 정보 -->
+            <section class="info-section">
+                <!-- 배송지 정보 -->
+                <div class="section-header">
+                    <h2>배송지 정보</h2>
+                    <button type="button" class="change-address-btn payPop" onclick="openPay()">배송지변경</button>
+                </div>
+                <div class="info-table">
+                    <div class="info-row">
+                        <div class="info-label">받는분</div>
+                        <div class="info-value">[[${defaultAddress.createdAt}]]</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">연락처</div>
+                        <div class="info-value">[[${formatPhoneNum}]]</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">주소</div>
+                        <div class="info-value">
+                            <span>[[${addr}]] [[${detailAddress}]] ([[${postcode}]])</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <a href=""></a>
+
+            <!-- 배송 요청사항 -->
+                <section class="info-section">
+                    <h2>배송 요청사항</h2>
+                    <div class="info-table">
+                        <div class="info-row">
+                            <div class="info-label">배송메시지</div>
+                            <div class="info-value input-value">
+                                <input type="text" id="deliveryRequest"  name="deliveryRequest" placeholder="내용">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 배송 상품 -->
+                <section class="info-section">
+                    <h2>배송 상품</h2>
+                    <table class="product-table">
+                        <thead>
+                        <tr>
+                            <!-- Changed to three columns -->
+                            <th class="col-image">이미지</th>
+                            <th class="col-name">상품 정보</th>
+                            <th class="col-price">판매가</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- 상품 1 -->
+                        <tr th:each="cart : ${cartList}">
+                            <td class="product-image-cell">
+                                <img th:src="@{${cart.product.img1}}" alt="상품 이미지" class="product-thumbnail">
+                            </td>
+
+                            <td class="product-name-cell">
+                                <span class="product-name">[[${cart.product.title}]]</span>
+                            </td>
+
+                            <td class="product-price">[[${cart.product.price}]]원</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- 결제 수단 및 정보 -->
+                <div class="payment-section">
+                    <section class="payment-methods info-section">
+                        <h2>결제수단 선택</h2>
+                        <div class="options-container">
+                            <div class="option">
+                                <input type="radio" id="credit-card" name="payment-method" value="credit-card" checked>
+                                <label for="credit-card">신용카드</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="TRANSFER" name="payment-method" value="TRANSFER">
+                                <label for="TRANSFER">계좌이체</label>
+                            </div>
+                        </div>
+                    </section>
+
+                    <aside class="payment-summary info-section">
+                        <h2>결제 정보</h2>
+                        <div class="summary-details">
+                            <div class="summary-row">
+                                <span>주문금액</span>
+                                <span>[[${formattedTotalPrice}]]</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>+배송비</span>
+                                <span>[[${shippingFee}]]원</span>
+                            </div>
+                            <div class="summary-total">
+                                <span>총 결제금액</span>
+                                <span class="total-amount">[[${totalShippingFee}]]</span>
+                            </div>
+                        </div>
+                        <button class="checkout-button">결제하기</button>
+
+                    </aside>
+
+                </div>
+        </div>
+
+    </section>
+    <script th:src="@{/js/payment.js}"></script>
+</th:block>
+<script src="../../js/orderPay.js" th:src="@{/js/orderPay.js}"></script>
+<script src="../../js/payment.js" th:src="@{/js/payment.js}"></script>

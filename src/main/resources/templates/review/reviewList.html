@@ -1,0 +1,120 @@
+<link rel="stylesheet" href="/css/review/reviewList.css" th:href="@{/css/review/reviewList.css}">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+    <section class="section" id="wrap">
+        <div class="container inquiry-list-container">
+            <!-- 필요 시 로고 이미지 추가 -->
+            <!-- <img src="/img/rewrite_logo.png" alt="REWRITE 로고" class="logo-image"> -->
+
+            <h2 class="page-title" th:if="${seller == null}">
+                리뷰 목록
+            </h2>
+            <h2 class="page-title" th:if="${seller != null and seller.nickname != null}">
+                [[${seller.nickname}]]님의 리뷰 내역
+            </h2>
+
+            <div class="inquiry-table-container">
+                <table class="inquiry-table">
+                    <thead>
+                    <tr>
+                        <th class="col-id">번호</th>
+                        <th class="col-subject">상품명</th>
+                        <th class="col-writer">작성자</th>
+                        <th class="col-date">작성일</th>
+
+                    </tr>
+
+                    <tbody id="tableBody">
+                    <!-- 리뷰 데이터 출력 -->
+                    <tr th:each="review, status : ${reviews}">
+                        <td th:text="${status.count}">번호</td>
+                        <td>
+                            <a th:href="@{/review/reviewDetail(reviewId=${review.id})}" th:text="${review.title}">상품명</a>
+                        </td>
+                        <td th:text="${review.writer}">작성자</td>
+                        <td th:text="${review.createdDate}">작성일</td>
+                    </tr>
+<!--                    &lt;!&ndash; 데이터가 없을 경우 &ndash;&gt;-->
+<!--                    <tr >-->
+<!--                        <td colspan="5" class="no-data">문의 내역이 없습니다.</td>-->
+<!--                    </tr>-->
+
+                    </tbody>
+                    </thead>
+
+                </table>
+            </div>
+
+            <div class="action-container">
+                <a href="#" class="write-button" th:onclick="|location.href='@{/prod/prodList}'|"> 상품목록으로 </a>
+            </div>
+
+            <!-- 페이지네이션 (정적 예시) -->
+<!--            <nav class="pagination-container" aria-label="Page navigation">-->
+<!--                &lt;!&ndash;                <ul class="pagination">&ndash;&gt;-->
+<!--                &lt;!&ndash;                    &lt;!&ndash; Previous Button (비활성화 예시) &ndash;&gt;&ndash;&gt;-->
+<!--                &lt;!&ndash;                    <li class="page-item disabled">&ndash;&gt;-->
+<!--                &lt;!&ndash;                        <a class="page-link" href="#" aria-label="Previous">&ndash;&gt;-->
+<!--                &lt;!&ndash;                            ← Prev&ndash;&gt;-->
+<!--                &lt;!&ndash;                        </a>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    </li>&ndash;&gt;-->
+
+<!--                &lt;!&ndash;                    &lt;!&ndash; Page Numbers &ndash;&gt;&ndash;&gt;-->
+<!--                &lt;!&ndash;                    <li class="page-item active"><a class="page-link" href="#">1</a></li>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    <li class="page-item"><a class="page-link" href="#">2</a></li>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    <li class="page-item"><a class="page-link" href="#">3</a></li>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    <li class="page-item"><a class="page-link" href="#">4</a></li>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    <li class="page-item"><a class="page-link" href="#">5</a></li>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    <li class="page-item"><a class="page-link" href="#">6</a></li>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    <li class="page-item"><a class="page-link" href="#">8</a></li>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    <li class="page-item"><a class="page-link" href="#">9</a></li>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    <li class="page-item"><a class="page-link" href="#">10</a></li>&ndash;&gt;-->
+
+<!--                &lt;!&ndash;                    &lt;!&ndash; Next Button (활성화 예시) &ndash;&gt;&ndash;&gt;-->
+<!--                &lt;!&ndash;                    <li class="page-item">&ndash;&gt;-->
+<!--                &lt;!&ndash;                        <a class="page-link" href="#" aria-label="Next">&ndash;&gt;-->
+<!--                &lt;!&ndash;                            Next →&ndash;&gt;-->
+<!--                &lt;!&ndash;                        </a>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--                &lt;!&ndash;                </ul>&ndash;&gt;-->
+<!--                <div class="pagination">-->
+<!--                    <a th:href="${qnaPage.first} ? '#' : @{/qna/qnaList(page=${qnaPage.number - 1})}"-->
+<!--                       class="page-link" th:classappend="${qnaPage.first} ? 'disabled'"> ← Prev </a>-->
+
+<!--                    <th:block th:each="pageNumber : ${#numbers.sequence(startIdx, endIdx)}">-->
+<!--                        &lt;!&ndash; 현재 페이지만 클릭 안되게 &ndash;&gt;-->
+<!--                        <span th:if="${pageNumber == qnaPage.number + 1}" class="page-link current-page"-->
+<!--                              th:text="${pageNumber}"></span>-->
+<!--                        &lt;!&ndash; 나머지는 클릭 되게 &ndash;&gt;-->
+<!--                        <a th:unless="${pageNumber == qnaPage.number + 1}"-->
+<!--                           th:href="@{/qna/qnaList(page=${pageNumber - 1})}"-->
+<!--                           class="page-link" th:text="${pageNumber}"></a>-->
+<!--                    </th:block>-->
+
+<!--                    <a th:href="${qnaPage != null && qnaPage.last} ? '#' : @{/qna/qnaList(page=${qnaPage != null ? qnaPage.number + 1 : 0})}"-->
+<!--                       class="page-link" th:classappend="${qnaPage != null && qnaPage.last} ? 'disabled'">-->
+<!--                        Next →-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </nav>-->
+        </div>
+    </section>
+    <script>
+        //바디생성함수
+        function createBody(items) {
+            var tableBody = document.getElementById("tableBody");
+
+            if (items.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="no-data">문의 내역이 없습니다.</td></tr>';
+                return;
+            }
+
+        }
+
+
+    </script>
+    </body>
+
+</th:block>

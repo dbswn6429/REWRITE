@@ -1,0 +1,169 @@
+<!-- 페이지별 스타일 시트 링크 (콘텐츠 내부에 위치) -->
+<link rel="stylesheet" th:href="@{/css/user/idFind.css}">
+
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+    <!--
+        1. th:replace: 이 파일 전체를 'include/include' 파일의 'def' 프래그먼트로 교체합니다.
+        2. 파라미터 전달: ~{::.idfind-wrapper} 를 사용하여 아래 정의된 section 전체를 item 파라미터로 전달합니다.
+
+    \
+          th:replace="~{include/include :: def(~{::.idfind-wrapper})}">
+    -->
+    <!--
+        이 idfind-wrapper 클래스를 가진 section 전체가 레이아웃의 item 파라미터로 전달됩니다.
+        따라서 페이지별 스타일과 스크립트는 이 section 내부에 포함되어야 합니다.
+    -->
+    <section class="idfind-wrapper" id="wrap"> <!-- 전체 콘텐츠를 감싸는 요소 -->
+
+        <!-- 실제 아이디 찾기 페이지 콘텐츠 -->
+        <div class="section"> <!-- 기존 클래스명 유지 또는 필요시 변경 -->
+            <div class="box">
+                <div class="title_box">
+                    <h3>아이디 찾기</h3>
+                </div>
+
+                <!-- form 에 id를 부여하거나 action을 실제 처리 경로로 수정하는 것이 좋습니다. -->
+                <form action="#" id="idFindForm">
+                    <div class="name_box box2">
+                        <p>이름</p>
+                        <input type="text" name="name" placeholder="이름을 입력해주세요" required> <!-- required 추가 고려 -->
+                    </div>
+
+                    <div class="phone_box box2">
+                        <p>전화번호</p>
+                        <input type="text" name="phone" placeholder="010-1234-5678" required> <!-- required 추가 고려 -->
+                    </div>
+
+                    <!-- 클래스명이 brith_box 인데 내용은 이메일이므로 email_box 로 변경 고려 -->
+                    <div class="email_box box2"> <!-- 클래스명 변경 -->
+                        <p>이메일</p>
+                        <input type="email" name="email" placeholder="이메일을 입력해주세요" required> <!-- type="email", required 추가 고려 -->
+                    </div>
+
+                    <!-- 버튼 타입을 명시하는 것이 좋습니다 (submit 또는 button) -->
+                    <button type="submit">찾기</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 인라인 스크립트로 변경 (외부 파일 로드 대신) -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // 폼 요소 가져오기 - ID로 직접 선택
+                const form = document.getElementById('idFindForm');
+
+                if(!form) {
+                    console.error('아이디 찾기 폼을 찾을 수 없습니다.');
+                    return;
+                }
+
+                // 폼 제출 이벤트 처리
+                form.addEventListener('submit', function(event) {
+                    // 기본 제출 동작 방지
+                    event.preventDefault();
+
+                    // 입력값 가져오기
+                    const name = form.querySelector('input[name="name"]').value.trim();
+                    const phone = form.querySelector('input[name="phone"]').value.trim();
+                    const email = form.querySelector('input[name="email"]').value.trim();
+
+                    // 입력값 유효성 검사
+                    if (!name) {
+                        alert('이름을 입력해주세요.');
+                        return;
+                    }
+
+                    if (!phone) {
+                        alert('전화번호를 입력해주세요.');
+                        return;
+                    }
+
+                    if (!email) {
+                        alert('이메일을 입력해주세요.');
+                        return;
+                    }
+
+                    // 이메일 형식 검사
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        alert('유효한 이메일 주소를 입력해주세요.');
+                        return;
+                    }
+
+                    // 전화번호 형식 검사 (010-1234-5678 형식)
+                    const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+                    if (!phoneRegex.test(phone)) {
+                        alert('전화번호 형식이 올바르지 않습니다. 010-1234-5678 형식으로 입력해주세요.');
+                        return;
+                    }
+
+                    // API 요청에 필요한 데이터 구성
+                    const requestData = {
+                        name: name,
+                        phone: phone,
+                        email: email
+                    };
+
+                    // 로딩 메시지 표시
+                    showMessage('처리 중입니다...', 'info');
+
+                    // API 호출
+                    fetch('/api/auth/find-id', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(requestData)
+                    })
+                        .then(response => {
+                            // 응답을 JSON으로 변환
+                            return response.json().then(data => {
+                                return { status: response.status, data: data };
+                            });
+                        })
+                        .then(result => {
+                            // 성공 시 처리 (200 OK)
+                            if (result.status === 200) {
+                                showMessage(result.data.message || '아이디 정보가 이메일로 발송되었습니다.', 'success');
+                            }
+                            // 실패 시 처리 (404 Not Found 등)
+                            else {
+                                showMessage(result.data.message || '요청 처리 중 오류가 발생했습니다.', 'error');
+                            }
+                        })
+                        .catch(error => {
+                            // 네트워크 오류 등 예외 처리
+                            console.error('API 요청 오류:', error);
+                            showMessage('서버 통신 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.', 'error');
+                        });
+                });
+
+                // 메시지 표시 함수
+                function showMessage(message, type) {
+                    // 기존 메시지 요소가 있으면 제거
+                    const existingMessage = document.querySelector('.message-box');
+                    if (existingMessage) {
+                        existingMessage.remove();
+                    }
+
+                    // 새 메시지 요소 생성
+                    const messageBox = document.createElement('div');
+                    messageBox.className = `message-box ${type}`;
+                    messageBox.textContent = message;
+
+                    // 폼 아래에 메시지 삽입
+                    form.parentNode.insertBefore(messageBox, form.nextSibling);
+
+                    // 성공 메시지는 5초 후 자동으로 사라지게 설정
+                    if (type === 'success' || type === 'info') {
+                        setTimeout(() => {
+                            messageBox.remove();
+                        }, 5000);
+                    }
+                }
+            });
+        </script>
+
+    </section> <!-- /.idfind-wrapper -->
+
+</th:block>

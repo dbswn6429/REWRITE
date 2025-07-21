@@ -1,0 +1,162 @@
+body {
+    font-family: 'Arial', sans-serif;
+  }
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  a{
+    text-decoration: none;
+    color: black;
+  }
+  section{
+    margin: 0 auto;
+    margin-top: 77px;
+    width: 1250px;
+    min-height: 1050px;
+    position: relative;
+  }
+
+  .section_right{float: right}
+  .section_right h1{font-size: 30px; margin: 0 0 10px 10px;}
+
+  .profile-section {
+    width: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+  }
+
+  .profile-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-info .level {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .tree-icon {
+    font-size: 32px;
+    margin-bottom: 5px;
+  }
+
+  .manners-bar {
+    width: 100px;
+    height: 10px;
+    background-color: #eee;
+    position: relative;
+    margin: 5px 0;
+  }
+
+  .manners-bar .progress {
+    height: 100%;
+    width: 75%;
+    background-color: orange;
+  }
+
+  .manners-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+  }
+
+  .stats {
+    display: flex;
+    gap: 60px;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-item .label {
+    font-weight: bold;
+    margin-bottom: 30px;
+    font-size: 20px;
+  }
+
+  .stat-item .value {
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  /* 최근 주문 내역 */
+  .latest-order{
+    width: 200px;
+  }
+.main-img{
+    border-radius: 10px;
+  width: 100%;
+  height: 200px;
+  transition: opacity 0.3s ease;
+}
+.title{
+    font-size:14px;
+}
+.address{
+    font-size:10px;
+    color:gray;
+}
+h2{
+    margin: 20px 0 5px 0;
+}
+
+.next-btn{
+  width: 50px;
+  height: 50px;
+  margin-top: 70px;
+  margin-left: 30px;
+}
+
+.media-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 200px;
+}
+
+.main-img {
+  width: 100%;
+  height: 200px;
+  transition: opacity 0.3s ease;
+}
+
+.prod-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.media-container:hover .main-img {
+  opacity: 0;
+}
+
+.media-container:hover .prod-video {
+  opacity: 1;
+}

@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="/css/qnaAnswer.css" th:href="@{/css/qna/qnaAnswer.css}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+    <section class="section" id="wrap">
+        <div class="container inquiry-detail-container"> <!-- 컨테이너 클래스 변경/유지 -->
+            <!-- 로고는 필요 시 여기에 추가 -->
+            <!-- <img src="/img/rewrite_logo.png" alt="REWRITE 로고" class="logo-image"> -->
+            <div class="inquiry-detail-view"> <!-- 폼 대신 상세 보기용 래퍼 -->
+                <h2 class="page-title">문의</h2>
+
+                <div class="form-group"> <!-- 레이아웃 재사용 -->
+                    <label>문의 유형</label>
+                    <div class="input-wrapper">
+                        <!-- 읽기 전용 내용 표시용 div -->
+                        <div class="read-only-content">배송 관련</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>문의 제목</label>
+                    <div class="input-wrapper">
+                        <!-- 읽기 전용 내용 표시용 div -->
+                        <div class="read-only-content">제목은 뭘까요?</div>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-textarea">
+                    <label>문의 내용</label>
+                    <div class="input-wrapper">
+                        <!-- 읽기 전용 내용 표시용 div (줄바꿈 처리 필요) -->
+                        <div class="read-only-content content-display">
+                            내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용레용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-textarea">
+                    <!-- 답변은 입력 가능하도록 textarea 사용 -->
+                    <label for="inquiryAnswer">문의 답변</label>
+                    <div class="input-wrapper">
+                        <textarea id="inquiryAnswer" name="inquiryAnswer" rows="8"
+                            placeholder="답변을 입력해 주세요."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="button-container">
+                <!-- 목록으로 돌아가는 버튼 -->
+                <a href="/inquiry" class="list-button">목록으로</a>
+                <!-- 필요 시 '답변 저장' 버튼 추가 -->
+                <!-- <button type="submit" class="submit-button">답변 저장</button> -->
+            </div>
+        </div>
+    </section>
+</body>
+</th:block>

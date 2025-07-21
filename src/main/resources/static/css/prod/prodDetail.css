@@ -1,0 +1,300 @@
+*{
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+
+}
+
+ul , li {
+    list-style: none;
+
+}
+
+a {
+
+
+    text-decoration: none;
+    color: black;
+}
+
+section {
+    font-family: 'Arial', sans-serif;
+    padding: 40px 20px 0px 20px ;
+    max-width: 1000px;
+    min-height: 550px;
+    margin: auto;
+    
+  }
+
+  .product-container {
+    display: flex;
+    
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .product-image {
+    flex: 1;
+    min-width: 300px;
+  }
+
+  .product-image img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  #sliderContent {
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #mediaWrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transition: transform 0.5s cubic-bezier(.77,0,.18,1);
+    will-change: transform;
+    left: 0; top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #mediaWrapper.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  #mediaWrapper.fade-in {
+    opacity: 1;
+    transition: opacity 0.3s;
+  }
+
+  .image-slider {
+    width: 400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .slider-area {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+#sliderContent img,
+#sliderContent video {
+  width: 400px;
+  height: 400px;
+  object-fit: contain;  /* cover에서 contain으로 변경 */
+  border-radius: 10px;
+  display: block;
+  background-color: #f9f9f9;  /* 선택적: 이미지 뒤 배경색 추가 */
+}
+  .slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.5rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .slider-btn-left { left: 10px; }
+  .slider-btn-right { right: 10px; }
+  
+
+  .product-details {
+    flex: 1;
+    min-width: 300px;
+  }
+
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .category-time {
+    color: gray;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .category-time .date {
+    float: right;
+  }
+
+  .price_heart {
+    height: 40px;
+    line-height: 40px;
+  }
+
+  .price {
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .description {
+    margin-bottom: 20px;
+    border: 1px #777 solid;
+    border-radius: 4px;
+    height: 43%;
+    padding: 10px;
+
+  }
+
+  .description > textarea {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    resize: none;
+    border: none;
+  }
+  
+  .meta-info {
+    color: gray;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .button1 {
+    background-color: rgb(240, 238, 238);
+    color: black;
+    padding: 14px;
+    text-align: center;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .button2 {
+    background-color: black;
+    color: white;
+    padding: 14px;
+    text-align: center;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .button1 > a {
+    color: black;
+  }
+
+  .button2 > a {
+    color: white;
+  }
+
+  .profile {
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    padding-left: 10px;
+    padding-bottom: 20px;
+  }
+
+  .profile-img {
+    
+    width: 50px;
+    height: 50px;
+    margin-left: 15px;
+    padding-right: 30px;
+
+  }
+
+ .profile-img img {
+    width: 100%;
+
+  }
+
+  .profile-info {
+    flex-grow: 1;
+  }
+  .profile-info > a {
+    color: black;
+  }
+
+  .temp > img {
+    width: 75px;
+    height: 75px;
+  }
+
+  .heart {
+    float: right;
+    padding-top: 2px;
+  }
+
+.edit-link {
+  display: inline-block;
+  margin-left: 15px;
+  padding: 3px 8px;
+  background-color: #f0f0f0;
+  color: black;
+  border-radius: 3px;
+  text-decoration: none;
+  font-size: 14px;
+  float: right;
+}
+
+.edit-link:hover {
+  background-color: #e0e0e0;
+  text-decoration: none;
+}
+
+.delete-link {
+  display: inline-block;
+  margin-left: 15px;
+  padding: 3px 8px;
+  background-color: #f0f0f0;
+  color: red;
+  border-radius: 3px;
+  text-decoration: none;
+  font-size: 14px;
+  float: right;
+}
+
+.delete-link:hover {
+  background-color: #e0e0e0;
+  text-decoration: none;
+}
+
+.soldout-badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  background: rgba(255, 80, 80, 0.95);
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 10px 24px;
+  border-radius: 10px;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  letter-spacing: 2px;
+}
+#sliderContent {
+  position: relative; /* 배지 위치 기준 */
+}
+
+

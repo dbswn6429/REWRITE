@@ -1,0 +1,21 @@
+/* 공통 레이아웃 */
+* { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0;}
+
+.section{margin: 17px auto;padding: 20px;height: 500px;}   
+
+.support{margin-top: 35px;}
+
+.sec_title{width: 700px; height: 35px; border-bottom: 1px solid black; margin: 30px auto;font-size: 20px;font-weight: 600;}
+
+.faq-list {width: 700px;margin: 0 auto;}
+.faq-list li {border: 1px solid #ccc;border-radius: 10px;margin-top: 10px;padding: 10px;cursor: pointer;position: relative;}
+.faq-list li.active .answer {display: block;}
+.faq-list li.active .arrow {transform: rotate(180deg);}
+
+.faq-list .num {font-weight: bold;margin-right: 10px;}
+.faq-list .q {font-weight: bold;}
+.faq-list .arrow {position: absolute;right: 10px;transition: transform 0.3s ease;}
+.faq-list .answer {display: none;margin-top: 10px;background-color: #eee;padding: 15px;border-radius: 5px;}
+  
+
+

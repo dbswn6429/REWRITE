@@ -1,0 +1,414 @@
+/* Basic Reset & Defaults */
+* {
+    font-family: "Arial", sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* popup */
+/*#payPop{position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; display: none;}*/
+/*#pop_box{width: 80%; max-width: 600px; height: 500px; position: relative; left: 50%; top: 50%; transform: translate(-50%,-50%); background: #fff; border-radius: 10px;}*/
+#payPop {position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.5);z-index: 1000;display: none;}
+#pop_box {background-color: white;width: 80%;max-width: 700px;position: relative; left: 15%; top: 50%; transform: translate(-50%,-50%); margin: 50px auto;border-radius: 5px;overflow: hidden;}
+#payPop_header {display: flex;justify-content: space-between;align-items: center;padding: 15px;border-bottom: 1px solid #ddd;}
+#payPop_section {padding: 15px; max-height: 500px; overflow-y: auto;}
+
+#closePay{position: absolute; right: 10px; top: 10px;background: none;border: none;}
+#closePay img{width: 40px;height: 40px;cursor: pointer;}
+.address-box {border: 1px solid #ddd;padding: 15px; max-width: 600px;  margin: 15px auto;border-radius: 5px;}
+.address-info {margin-bottom: 10px;}
+
+.default {color: #007bff;font-weight: bold;margin-left: 5px;}
+
+.btn {padding: 5px 10px;border: none;border-radius: 3px;cursor: pointer;margin-right: 5px;}
+.btn-select {background-color: #000;color: white;}
+
+
+.checkout-container {
+    max-width: 900px;
+    margin: 20px auto;
+
+    padding: 20px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #333;
+}
+
+.section-header h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.change-address-btn{
+    border: 1px solid;
+    background-color: white;
+    padding: 5px;
+}
+
+.info-section {
+    margin-bottom: 30px;
+}
+
+/* Info Tables (Shipping, Delivery Request) */
+.info-table {
+    border-top: 1px solid #e0e0e0;
+}
+
+.info-row {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    min-height: 50px; /* Ensure consistent row height */
+}
+
+.info-label {
+    background-color: #f8f8f8;
+    padding: 10px 15px;
+    font-weight: 500;
+    color: #555;
+    width: 120px; /* Fixed width for labels */
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; /* Prevent label from shrinking */
+}
+
+.info-value {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Allow value to take remaining space */
+}
+
+.info-value .zip-code {
+    display: block; /* Make zip code appear above address line */
+    margin-bottom: 3px;
+    font-size: 0.9em;
+    color: #777;
+}
+.info-value span:not(.zip-code) {
+    display: block; /* Ensure address text wraps if needed */
+}
+
+
+.info-value.input-value {
+    padding: 5px 15px; /* Adjust padding for input field */
+}
+
+.info-value input[type="text"] {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Product Table */
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #e0e0e0;
+}
+
+.product-table th,
+.product-table td {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 15px 10px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.product-table th {
+    background-color: #f8f8f8;
+    font-weight: 500;
+    color: #555;
+    text-align: center;
+}
+
+.product-table .product-info {
+    display: flex;
+    align-items: center;
+}
+
+.product-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 1px solid #eee;
+}
+
+.product-name {
+    font-size: 15px;
+}
+
+.product-price {
+    text-align: right;
+    font-weight: 500;
+    min-width: 120px; /* Ensure price column has enough space */
+    white-space: nowrap; /* Prevent price from wrapping */
+}
+
+/* Payment Section Layout */
+.payment-section {
+    display: flex;
+    flex-wrap: wrap; /* Allow sections to wrap on smaller screens */
+    gap: 30px; /* Space between methods and summary */
+}
+
+.payment-methods {
+    flex: 2; /* Take more space */
+    min-width: 250px; /* Minimum width before wrapping */
+}
+
+.payment-summary {
+    flex: 1; /* Take less space */
+    background-color: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 4px;
+    min-width: 250px; /* Minimum width before wrapping */
+}
+
+/* Payment Methods */
+.payment-methods h2 { /* Override default h2 border for this section */
+    border-bottom: none;
+    margin-bottom: 10px;
+    padding-bottom: 0;
+}
+
+.options-container {
+    padding: 10px 0; /* Add some padding */
+}
+.option {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.option input[type="radio"] {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    accent-color: #555; /* Style the checked radio button */
+}
+
+.option label {
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* Payment Summary */
+.payment-summary h2 { /* Override default h2 border for this section */
+    border-bottom: none;
+    margin-bottom: 15px;
+    padding-bottom: 0;
+    font-size: 16px; /* Slightly smaller heading for summary */
+}
+.summary-details {
+    margin-bottom: 20px;
+}
+.summary-row, .summary-total {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.summary-total {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed #ccc;
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+
+.total-amount {
+    color: #d9534f; /* Red color for total amount */
+    font-size: 18px;
+}
+
+/* Checkout Button */
+.checkout-button {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    background-color: #cccccc; /* Grey button like image */
+    color: #555555;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.checkout-button:hover {
+    background-color: #bbbbbb;
+}
+
+/* Responsive Adjustments (Optional Example) */
+@media (max-width: 768px) {
+    .info-label {
+        width: 100px; /* Slightly smaller labels on smaller screens */
+        font-size: 13px;
+    }
+    .info-value {
+        font-size: 13px;
+    }
+    .payment-section {
+        flex-direction: column; /* Stack payment sections vertically */
+    }
+    .product-price {
+        min-width: 100px;
+    }
+}
+
+/* Product Table Adjustments */
+.product-table th,
+.product-table td {
+    /* Existing styles */
+    padding: 15px 10px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid #e0e0e0;
+
+    /* Add border-right for visual separation (optional) */
+    /* border-right: 1px solid #e0e0e0; */ /* Uncomment if you want vertical lines */
+}
+
+/* Remove right border from the last cell in header and body */
+.product-table th:last-child,
+.product-table td:last-child {
+    /* border-right: none; */ /* Uncomment if using border-right above */
+}
+
+
+.product-table thead th { /* Ensure header text is centered */
+    text-align: center;
+}
+
+/* Define column widths (adjust as needed) */
+.product-table .col-image {
+    width: 100px; /* Fixed width for image column header */
+}
+.product-table .col-name {
+    /* Name column can take remaining space */
+    width: auto;
+}
+.product-table .col-price {
+    width: 150px; /* Fixed width for price column header */
+}
+
+
+/* Style the new cells */
+.product-image-cell {
+    text-align: center; /* Center the image within its cell */
+}
+
+.product-thumbnail {
+    /* Keep existing styles */
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    /* Remove margin-right if it was set before */
+    margin-right: 0;
+    border: 1px solid #eee;
+    display: inline-block; /* Helps with alignment */
+}
+
+.product-name-cell {
+    /* Styles for the product name cell, e.g., text alignment */
+    text-align: left; /* Or center if preferred */
+    padding-left: 20px; /* Add some padding from the image */
+}
+
+.product-name {
+    /* Keep existing styles */
+    font-size: 15px;
+}
+
+.product-price {
+    /* Keep existing styles */
+    text-align: right;
+    font-weight: 500;
+    white-space: nowrap;
+    padding-right: 20px; /* Add some padding */
+}
+
+/* Ensure the table layout behaves as expected */
+.product-table {
+    table-layout: fixed; /* Helps control column widths more reliably */
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* --- 결제 진행 단계 표시줄 스타일 --- */
+
+.checkout-header {
+    display: flex; /* 내부 요소들을 가로로 배치 (플렉스박스 사용) */
+    justify-content: space-between; /* 제목은 왼쪽, 단계 표시줄은 오른쪽으로 분리 */
+    align-items: baseline;      /* 텍스트 기준선에 맞춰 정렬 */
+    margin-bottom: 30px;      /* 헤더 아래쪽 여백 */
+    flex-wrap: wrap;          /* 화면 작을 때 줄바꿈 허용 */
+}
+
+.checkout-header h1 {
+    margin-bottom: 0; /* 플렉스 컨테이너 안에서는 기본 마진 제거 */
+}
+
+.checkout-progress {
+    list-style: none; /* 목록 기본 점 제거 */
+    padding: 0;
+    margin: 0;        /* 목록 기본 여백 제거 */
+    display: flex;    /* 단계(li)들을 가로로 배치 */
+    gap: 5px;         /* 각 단계 사이 간격 */
+    font-size: 14px;  /* 글자 크기 */
+    color: #aaaaaa;   /* 기본 글자색 (흐리게) */
+}
+
+.checkout-progress li {
+    display: flex;    /* 글자와 구분 기호 정렬 위해 */
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 5px;         /* 글자와 구분 기호 사이 간격 */
+}
+
+/* '>' 구분 기호 추가 (마지막 단계 제외) */
+.checkout-progress li:not(:last-child)::after {
+    content: ">";      /* '>' 문자 내용 추가 */
+    color: #cccccc;   /* 구분 기호 색상 */
+    display: inline-block; /* 올바른 배치를 위해 */
+}
+
+/* 현재 단계 스타일 */
+.checkout-progress li.current-step {
+    color: #333333;   /* 현재 단계 글자색 (진하게) */
+    font-weight: bold; /* 굵은 글씨 */
+}
+
+/* 반응형 디자인 (선택 사항) */
+@media (max-width: 600px) {
+    .checkout-header {
+        flex-direction: column; /* 작은 화면에서는 세로로 쌓기 */
+        align-items: flex-start; /* 왼쪽 정렬 */
+    }
+    .checkout-progress {
+        margin-top: 10px; /* 세로로 쌓일 때 위쪽 여백 */
+    }
+}
+/* --- // 결제 진행 단계 표시줄 스타일 끝 --- */

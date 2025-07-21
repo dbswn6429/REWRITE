@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문의하기 - REWRITE</title>
+    <!-- 실제 CSS 파일 경로로 수정하세요 -->
+    <link rel="stylesheet" href="/css/user/writeInquiry.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Font Awesome (파일 첨부 아이콘) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container inquiry-form-container"> <!-- 컨테이너 클래스 변경 -->
+    <!-- 로고는 필요 시 여기에 추가 -->
+    <!-- <img src="/img/rewrite_logo.png" alt="REWRITE 로고" class="logo-image"> -->
+
+    <form action="/inquiry/submit" method="post" class="inquiry-form" enctype="multipart/form-data"> <!-- form 태그 및 클래스 변경, 파일 첨부 시 enctype 추가 -->
+        <h2 class="page-title">문의하기</h2>
+
+        <div class="form-group"> <!-- 클래스명 변경 (input-group 대신) -->
+            <label for="inquiryType">문의 유형</label>
+            <div class="input-wrapper select-wrapper"> <!-- 입력 요소 감싸기 -->
+                <select id="inquiryType" name="inquiryType" required>
+                    <option value="" disabled selected>선택해주세요</option>
+                    <option value="배송">배송 문의</option>
+                    <option value="상품">상품 문의</option>
+                    <option value="결제">결제 문의</option>
+                    <option value="기타">기타 문의</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inquirySubject">문의 제목</label>
+            <div class="input-wrapper">
+                <input type="text" id="inquirySubject" name="inquirySubject" placeholder="제목을 입력해 주세요." required>
+            </div>
+        </div>
+
+        <div class="form-group form-group-textarea"> <!-- Textarea 그룹 클래스 추가 -->
+            <label for="inquiryContent">문의 내용</label>
+            <div class="input-wrapper">
+                <textarea id="inquiryContent" name="inquiryContent" rows="8" placeholder="내용을 입력해 주세요." required></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="fileAttachment">파일 첨부</label>
+            <div class="input-wrapper file-input-wrapper">
+                <!-- 실제 파일 입력은 숨김 -->
+                <input type="file" id="fileAttachment" name="fileAttachment" class="file-input-hidden" multiple>
+                <!-- 파일 선택 버튼 역할 -->
+                <label for="fileAttachment" class="file-select-button">+파일첨부</label>
+                <!-- 선택된 파일 목록 표시 영역 (선택적) -->
+                <span id="file-list" class="file-list-display"></span>
+                <!-- 클립 아이콘 -->
+                <label for="fileAttachment" class="file-clip-icon">
+                    <i class="fas fa-paperclip"></i>
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-button">문의 접수</button>
+    </form>
+</div>
+
+<!-- 간단한 파일 목록 표시 스크립트 (선택적) -->
+<script>
+    const fileInput = document.getElementById('fileAttachment');
+    const fileListDisplay = document.getElementById('file-list');
+
+    if (fileInput && fileListDisplay) {
+        fileInput.addEventListener('change', function() {
+            let fileNames = [];
+            for (let i = 0; i < this.files.length; i++) {
+                fileNames.push(this.files[i].name);
+            }
+            fileListDisplay.textContent = fileNames.join(', ');
+            if(fileNames.length > 0) {
+                fileListDisplay.style.display = 'inline'; // 파일 선택 시 보이도록
+            } else {
+                fileListDisplay.style.display = 'none'; // 파일 없을 때 숨김
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

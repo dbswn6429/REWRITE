@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 관리</title>
+    <!-- <link rel="stylesheet" href="admin_products.css"> CSS 파일 연결 (필요시 생성) -->
+    <style>
+
+        /* 상품 테이블의 마지막 관리 셀에 Flexbox 적용 */
+        .product-table td:last-child {
+            display: flex; /* 버튼들을 가로로 배치 */
+            align-items: center; /* 버튼들을 세로 중앙 정렬 (선택 사항) */
+            justify-content: center;
+            gap: 5px; /* 버튼 사이 간격 (기존 margin-right 대신 사용) */
+        }
+
+        /* Flexbox 적용 시 기존 버튼 오른쪽 마진 제거 */
+        .product-table td:last-child button {
+            margin-right: 0;
+        }
+
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1200px; /* 테이블 너비 고려하여 약간 늘림 */
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* 검색 영역 */
+        .search-filter-area {
+            display: flex;
+            gap: 10px; /* 요소 사이 간격 */
+            margin-bottom: 20px;
+            flex-wrap: wrap; /* 작은 화면에서 줄바꿈 */
+        }
+
+        .search-filter-area input[type="search"] {
+            flex-grow: 1; /* 가능한 많은 공간 차지 */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .search-filter-area button {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+            cursor: pointer;
+        }
+
+        .search-filter-area button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 상품 테이블 */
+        .product-table {
+            width: 100%;
+            border-collapse: collapse; /* 테두리 합치기 */
+            margin-bottom: 20px;
+        }
+
+        .product-table th,
+        .product-table td {
+            border: none;
+            padding: 12px;
+            text-align: left;
+            vertical-align: middle; /* 내용 중간 정렬 */
+        }
+
+        .product-table th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .product-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* 짝수 행 배경색 */
+        }
+
+        .product-table tbody tr:hover {
+            background-color: #f1f1f1; /* 마우스 오버시 배경색 */
+        }
+
+        /* 상품 이미지 썸네일 */
+        .product-thumbnail {
+            width: 60px; /* 썸네일 너비 */
+            height: 60px; /* 썸네일 높이 */
+            object-fit: cover; /* 이미지 비율 유지하며 채우기 */
+            border-radius: 4px; /* 약간 둥근 모서리 */
+            display: block; /* 가운데 정렬 등을 위해 */
+            margin: auto; /* td 내에서 가운데 정렬 (text-align: center 와 함께 사용) */
+        }
+        .product-table td.image-cell {
+            text-align: center; /* 이미지 가운데 정렬 */
+            width: 80px; /* 이미지 셀 너비 고정 */
+        }
+
+        /* 관리 버튼 */
+        .product-table td button {
+            margin-right: 5px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        /* 마지막 버튼에는 오른쪽 여백 제거 */
+        .product-table td button:last-child {
+            margin-right: 0;
+        }
+
+        .btn-view-detail {
+            background-color: #17a2b8; /* 청록색 계열 */
+            color: white;
+        }
+        .btn-view-detail:hover {
+            background-color: #138496;
+        }
+
+        .btn-delete-product {
+            background-color: #dc3545; /* 빨간색 계열 */
+            color: white;
+        }
+        .btn-delete-product:hover {
+            background-color: #c82333; /* 더 진한 빨간색 */
+        }
+
+        /* 페이지네이션 (기본 스타일) */
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* 반응형 (간단 예시) */
+        @media (max-width: 992px) { /* 더 넓은 화면에서 반응형 적용 */
+            .product-table {
+                font-size: 0.9em;
+            }
+            .product-table th,
+            .product-table td {
+                padding: 8px;
+            }
+            .product-thumbnail {
+                width: 50px;
+                height: 50px;
+            }
+            .product-table td.image-cell {
+                width: 70px;
+            }
+            /* 특정 컬럼 숨기기 등 추가 반응형 처리 가능 */
+            .product-table th:nth-child(5), /* 픽업상태 */
+            .product-table td:nth-child(5) {
+                /* display: none; */ /* 예시: 화면 작을 때 숨기기 */
+            }
+        }
+        @media (max-width: 768px) {
+            .search-filter-area {
+                flex-direction: column; /* 작은 화면에서 세로 정렬 */
+            }
+            .product-table th:nth-child(6), /* 등록일 */
+            .product-table td:nth-child(6) {
+                /* display: none; */ /* 예시: 더 작은 화면에서 숨기기 */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>상품 관리</h1>
+
+    <!-- 검색 영역 -->
+    <div class="search-filter-area">
+        <input type="search" id="uidSearchInput" placeholder="판매자 UID 검색...">
+        <button id="searchButton">검색</button>
+    </div>
+
+    <!-- 상품 목록 테이블 -->
+    <table class="product-table">
+        <thead>
+        <tr>
+            <th>이미지</th> <!-- 이미지 컬럼 추가 -->
+            <th>상품ID</th>
+            <th>제목</th>
+            <th>상품상태</th>
+            <th>픽업상태</th>
+            <th>등록일</th>
+            <th>판매자UID</th>
+            <th>관리</th>
+        </tr>
+        </thead>
+        <tbody id="productTableBody">
+        <!-- 상품 데이터가 여기에 동적으로 추가됩니다. -->
+        <!-- 예시 행 (JS로 생성될 내용) -->
+        <!--
+        <tr>
+            <td class="image-cell"><img src="path/to/image1.jpg" alt="상품 이미지" class="product-thumbnail"></td>
+            <td>101</td>
+            <td>샘플 상품 제목</td>
+            <td>판매중</td>
+            <td>픽업대기</td>
+            <td>2024-01-15</td>
+            <td>user123</td>
+            <td>
+                <button class="btn-view-detail" data-prodid="101">상세 보기</button>
+                <button class="btn-delete-product" data-prodid="101">삭제</button>
+            </td>
+        </tr>
+         -->
+        </tbody>
+    </table>
+
+    <!-- 페이지네이션 (필요하다면 추가) -->
+    <div class="pagination">
+        <!-- 페이지 번호 등이 여기에 들어갈 수 있습니다. -->
+    </div>
+</div>
+
+<!-- 상세 보기 모달 등 추가 UI 요소 (필요시) -->
+<!-- <div id="productDetailModal" class="modal"> ... </div> -->
+
+<!-- <script src="admin_products.js"></script> JavaScript 파일 연결 (필요시 생성) -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const productTableBody = document.getElementById('productTableBody');
+        const uidSearchInput = document.getElementById('uidSearchInput');
+        const searchButton = document.getElementById('searchButton');
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const uid = urlParams.get('uid');
+
+        // --- 이벤트 리스너 ---
+        searchButton.addEventListener('click', fetchAndRenderProducts);
+        uidSearchInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                fetchAndRenderProducts();
+            }
+        });
+
+        // 테이블 내 버튼 클릭 이벤트 위임 (동적으로 생성된 버튼 처리)
+        productTableBody.addEventListener('click', (event) => {
+            const target = event.target;
+            // data-prodid 속성 값 가져오기 (상품 ID)
+            const prodId = target.dataset.prodid;
+
+            if (target.classList.contains('btn-view-detail') && prodId) {
+                handleViewProductDetail(prodId);
+            } else if (target.classList.contains('btn-delete-product') && prodId) {
+                handleDeleteProduct(prodId);
+            }
+        });
+
+        async function fetchAndRenderProducts() {
+
+            const searchTerm = uidSearchInput.value.trim();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const uidFromUrl = urlParams.get('uid');
+            // 문제 해결
+            // or문이지만, 서치텀이 있다면 먼저 사용하기에, url에 고정된채로 검색되는 문제를 막을 수 있음.
+            const effectiveUid = searchTerm || uidFromUrl;
+
+            let apiUrl = '/api/admin/products';
+            if (effectiveUid) {
+                apiUrl = `/api/admin/products?uid=${encodeURIComponent(effectiveUid)}`;
+            }
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    let errorMsg = `HTTP error! status: ${response.status}`;
+                    try {
+                        const errorData = await response.json();
+                        errorMsg = errorData.message || JSON.stringify(errorData);
+                    } catch (e) {
+                        // JSON 파싱 실패 시 기본 오류 메시지 사용
+                    }
+                    throw new Error(errorMsg);
+                }
+
+                const products = await response.json();
+                renderProductTable(products);
+
+            } catch (error) {
+                console.error("상품 목록 로딩 실패:", error);
+                productTableBody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: red;">상품 정보를 불러오는 데 실패했습니다: ${error.message}</td></tr>`;
+            }
+        }
+
+        /**
+         * 상품 데이터를 받아 테이블 본문(tbody)을 생성합니다.
+         * @param {Array<object>} products - 상품 객체 배열
+         */
+        function renderProductTable(products) {
+            productTableBody.innerHTML = ''; // 기존 내용 비우기
+
+            if (!products || products.length === 0) {
+                productTableBody.innerHTML = `<tr><td colspan="8" style="text-align: center;">표시할 상품이 없습니다.</td></tr>`;
+                return;
+            }
+
+            products.forEach(product => {
+                const row = productTableBody.insertRow();
+
+                // 날짜 포맷팅 (간단하게)
+                const regDate = product.regDate ? new Date(product.regDate).toISOString().split('T')[0] : '-';
+                // 이미지 URL 처리 (null 이거나 없을 경우 대비)
+                const imageUrl = product.img1 ? escapeHtml(product.img1) : 'placeholder.png'; // placeholder.png는 기본 이미지 경로로 대체
+                const imageAlt = product.title ? `${escapeHtml(product.title)} 이미지` : '상품 이미지';
+
+                // 판매자 UID 가져오기 (product 객체 내 user 객체가 있는지 확인)
+                // 백엔드 응답 구조에 따라 product.uid 또는 product.user.uid 등을 사용해야 함
+                const sellerUid = product.user && product.user.uid ? escapeHtml(product.user.uid) : (product.uid ? escapeHtml(product.uid) : 'N/A');
+
+
+                row.innerHTML = `
+                    <td class="image-cell">
+                        <img src="${imageUrl}" alt="${imageAlt}" class="product-thumbnail" onerror="this.src='placeholder.png'; this.onerror=null;"> <!-- onerror로 이미지 로드 실패시 대체 -->
+                    </td>
+                    <td>${product.prodId}</td>
+                    <td>${escapeHtml(product.title)}</td>
+                    <td>${escapeHtml(product.prodStatus)}</td>
+                    <td>${escapeHtml(product.pickupStatus)}</td>
+                    <td>${regDate}</td>
+                    <td>${sellerUid}</td>
+                    <td>
+                        <button class="btn-view-detail" data-prodid="${product.prodId}">판매 페이지</button>
+                        <button class="btn-delete-product" data-prodid="${product.prodId}">삭제</button>
+                    </td>
+                `;
+            });
+        }
+
+        /**
+         * 상세 보기 버튼 클릭 시 호출될 함수 (실제 구현 필요)
+         * @param {string} prodId - 상품 ID
+         */
+        function handleViewProductDetail(prodId) {
+            window.location.href = `/prod/prodDetail?prodId=${prodId}`;
+        }
+
+        /**
+         * 삭제 버튼 클릭 시 호출될 함수 (실제 구현 필요)
+         * @param {string} prodId - 상품 ID
+         */
+        function handleDeleteProduct(prodId) {
+            console.log(`상품 ID ${prodId} 삭제 시도`);
+            if (confirm(`정말로 상품 ID ${prodId}를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.`)) {
+                // 실제 삭제 API 호출
+                fetch(`/api/admin/products/${prodId}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('상품이 성공적으로 삭제되었습니다.');
+                            fetchAndRenderProducts(); // 목록 새로고침
+                        } else {
+                            // 서버에서 오류 메시지를 반환하는 경우 처리
+                            response.json().then(errorData => {
+                                alert(`상품 삭제 실패: ${errorData.message || response.statusText}`);
+                            }).catch(() => {
+                                alert(`상품 삭제 실패: 서버 응답 오류 (상태 코드: ${response.status})`);
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('상품 삭제 API 오류:', error);
+                        alert('상품 삭제 중 오류가 발생했습니다.');
+                    });
+            }
+        }
+
+        // --- 유틸리티 함수 ---
+
+        /**
+         * HTML 문자열을 안전하게 이스케이프 처리합니다. (XSS 방지)
+         * @param {string|number|null|undefined} str - 이스케이프할 값
+         * @returns {string} 이스케이프된 문자열 또는 원본 값(문자열 아닐 시)
+         */
+        function escapeHtml(str) {
+            if (typeof str !== 'string') return str; // 문자열이 아니면 그대로 반환
+            const map = {
+                '&': '&',
+                '<': '<',
+                '>': '>',
+                '"': '"',
+        };
+            return str.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+
+        // 페이지 로드 시 초기 상품 목록 표시
+        fetchAndRenderProducts();
+
+    });
+</script>
+</body>
+</html>

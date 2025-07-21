@@ -1,0 +1,163 @@
+<!-- 파일: templates/user/login.html -->
+<!DOCTYPE html>
+<!--
+    1. th:replace: 이 파일 전체를 'include/include' 파일의 'def' 프래그먼트로 교체합니다.
+    2. 파라미터 전달: ~{::.login-wrapper} 를 사용하여 아래 정의된 section 전체를 item 파라미터로 전달합니다.
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{include/include :: def(~{::.login-wrapper})}">
+
+<!--
+    이 login-wrapper 클래스를 가진 section 전체가 레이아웃의 item 파라미터로 전달됩니다.
+    따라서 페이지별 스타일과 스크립트는 이 section 내부에 포함되어야 합니다.
+-->
+<section class="login-wrapper"> <!-- 감싸는 요소에 클래스 또는 ID 부여 -->
+
+    <!-- 페이지별 스타일 시트 링크 (콘텐츠 내부에 위치) -->
+    <link rel="stylesheet" th:href="@{/css/user/login.css}">
+
+    <!-- 실제 로그인 페이지 콘텐츠 -->
+    <div class="section"> <!-- 기존 구조 유지를 위해 div 사용 또는 클래스명 변경 고려 -->
+        <div class="login-container">
+            <h1>로그인</h1>
+
+            <form id="login-form" class="login-form">
+                <span>아이디</span><br>
+                <input type="text" name="id" class="id" required> <br>
+                <span>비밀번호</span><br>
+                <input type="password" name="pw" class="pw" required>
+                <button type="submit">로그인</button>
+            </form>
+
+            <div class="links">
+                <a th:href="@{/user/signup}">회원가입</a>
+                <a th:href="@{/user/idFind}">아이디 찾기</a>
+                <a th:href="@{/user/pwFind}">비밀번호 찾기</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 페이지별 스크립트 (콘텐츠 내부에 위치) -->
+    <script>
+        // 여기에 login.html에 필요한 JavaScript 코드를 넣습니다.
+        const loginForm = document.getElementById('login-form');
+
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const userId = loginForm.id.value.trim();
+            const userPw = loginForm.pw.value.trim();
+
+            if (userId === '') {
+                alert('아이디를 입력해주세요.');
+                return;
+            }
+            if (userPw === '') {
+                alert('비밀번호를 입력해주세요');
+                return;
+            }
+
+            const formData = new FormData(loginForm);
+            const loginData = {};
+            formData.forEach((value, key) => {
+                loginData[key] = value;
+            });
+
+            try {
+                const response = await fetch('/api/auth/login', { // 실제 API 엔드포인트 확인
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(loginData)
+                });
+
+                if (response.ok) {
+                    console.log('로그인 성공');
+                    // 성공 시 서버 응답에 따라 추가 처리 가능 (예: JWT 토큰 저장)
+                    // const result = await response.json();
+                    window.location.href = '/'; // 홈페이지 또는 대시보드로 리디렉션
+                } else {
+                    try {
+                        const error = await response.json();
+                        alert(error.message || `로그인 실패 (${response.status})`);
+                    } catch (jsonError) {
+                        alert(`로그인 처리 중 오류 발생 (${response.status})`);
+                    }
+                }
+            } catch (error) {
+                console.error('로그인 요청 오류:', error);
+                alert('로그인 요청 중 문제가 발생했습니다.');
+            }
+        });
+    </script>
+
+</section> <!-- /.login-wrapper -->
+
+</html> <!-- 이 태그는 th:replace 때문에 실제로는 렌더링되지 않음 -->
+<script>
+    const loginForm = document.getElementById('login-form');
+
+    // async - 비동기로 진행하겠다.
+    loginForm.addEventListener('submit', async function(e) {
+
+        // 기본 이벤트 차단하고
+        e.preventDefault();
+
+        //로그인폼에서 id접근 - value 접근해서 가져옴.
+        //혹시나 아이디 비밀번호 입력할때 뒤에 공백칸 붙히고 입력하는 빡통들을 위해 트림을 넣어서 띄어쓰기가 있어도 제거해줌.
+        const userId = loginForm.id.value.trim();
+        const userPw = loginForm.pw.value.trim();
+
+
+        // 아이디, 비밀번호가 빈칸이면
+        if (userId === '') {
+            alert('아이디를 입력해주세요.');
+            return;
+        }
+        if (userPw === '') {
+            alert('비밀번호를 입력해주세요');
+            return;
+        }
+
+        //loginForm에 있는 데이터 받아올건데, 이름을 formData라고 명명할거고
+        const formData = new FormData(loginForm);
+        // json으로 받기 위한 전처리 - 객체 만들어두기.
+        const loginData = {};
+        // json형식으로 받을건데, value, key 값으로 받아서 나중에 dto가 받기 쉽게 만들어줄거임.
+        formData.forEach((value, key) =>{
+            loginData[key] = value;
+        })
+
+        // 이미 만들어놓은 백엔드로 보내줄건데, 포스트, json 타입으로 보낼거임.
+        try{
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(loginData)
+            })
+
+            //백엔드에서 ok(200) 을 response한다면 성공이니까, 홈으로 보내줌
+            if (response.ok) {
+                const success = await response.json();
+                console.log('로그인 성공', success);
+                window.location.href = '/'
+
+                //그거 아니면 오류니까, 백엔드에서 실어주는 에러메세지(Validation오류 혹은 서버 오류 등) 을 alert해줌
+            }else {
+                const error = await response.json();
+                alert(error.message);
+            }
+
+            // 네트워크 오류, 타임아웃, 파싱 안될때, 서버 죽었을때, cors 오류 등을 위해서 여기서도 에러처리
+        }catch(error){
+            console.log('로그인 오류발생', error);
+            alert(error.message);
+        }
+    });
+
+
+</script>
+</body>
+</html>

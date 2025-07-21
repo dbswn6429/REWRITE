@@ -1,0 +1,133 @@
+
+
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+
+    <section id="wrap">
+
+        <form id="product-form" name="productForm" th:action="${product != null && product.prodId != 0 ? '/prod/productUpdate' : '/prod/productReg'}" method="post" enctype="multipart/form-data">
+            <!-- 수정 모드일 때 상품 ID를 hidden으로 전달 -->
+            <input type="hidden" name="prodId" th:if="${product != null}" th:value="${product != null ? product.prodId : 0}">
+
+            <input type="text" placeholder="상품명 입력" id="prod-name" class="prod-name" name = "title"  th:value="${product != null ? product.title : ''}" required>
+
+            <!-- 카테고리 테이블 -->
+            <div class="category-wrapper">
+
+                <div class="category-box" id="main-category" >
+                    <button type="button" class="category-item" onclick="showSubCategory('의류')">의류</button>
+                    <button type="button" class="category-item" onclick="showSubCategory('게임')">게임</button>
+                    <button type="button" class="category-item" onclick="showSubCategory('전자기기')">전자기기</button>
+                    <button type="button" class="category-item" onclick="showSubCategory('가전제품')">가전제품</button>
+
+                </div>
+                <div class="category-box" id="sub-category2">
+                    <div id="sub-category" class="category-item"></div>
+                </div>
+            </div>
+
+            <input type="hidden" name="category_max" id="category_max" th:value="${product != null ? product.categoryMax : ''}">
+            <input type="hidden" name="category_min" id="category_min" th:value="${product != null ? product.categoryMin : ''}">
+
+            <input type="text" placeholder="판매가 입력" id="prod-price" class="prod-price" name="price" th:value="${product != null ? product.price : ''}" required>
+
+            <div>
+            <label>주소지 정보</label> <button class="address-reg" type="button" onclick="address()"  >주소검색</button>
+            </div>
+            <input type="text"  name="postcode" id="sample6_postcode" placeholder="우편번호" th:value="${postCode}" readonly >
+            <div class="address-search">
+                <!--            <button type="button">주소검색</button>-->
+                <input type="text"  name="addr" id="sample6_address" placeholder="주소" th:value="${addr}" required readonly ><br>
+
+
+
+            </div>
+            <input type="text" id = "sample6_detailAddress" name="detailAddress" placeholder="상세주소" th:value="${detailAddress}" required><br>
+
+            <textarea rows="5" class="tarea"  placeholder="-상품 설명
+
+
+-사용 기간
+-실제 촬영한 사진을 올려주세요.
+-본인이 촬영한 사진이 아닐 시 이용제재 처리 될 수 있습니다." id="description" name="description"  th:text="${product != null ? product.description : ''}"></textarea>
+
+            <div class="image-upload-container">
+                <div class="image-upload-box">
+                    <span id="file-count">0/5</span>
+                </div>
+                <div id="preview-container" class="image-upload-preview-container">
+                    <!-- 첨부된 파일 썸네일이 여기에 들어감 -->
+                </div>
+            </div>
+
+            <div class="file-upload-box" id="file-upload-box">
+                <div style="font-size: 24px;">📄</div>
+                <p>첨부할 이미지 파일을 올려주세요.</p>
+                <input type="file" name="images" id="file-input" accept="image/*" multiple style="display:none;">
+                <input type="file" name="video" id="video-input" accept="video/*" style="display:none;">
+            </div>
+            <input type="hidden" name="img_1" th:value="${product != null ? product.img1 : ''}">
+            <input type="hidden" name="img_2" th:value="${product != null ? product.img2 : ''}">
+            <input type="hidden" name="img_3" th:value="${product != null ? product.img3 : ''}">
+            <input type="hidden" name="img_4" th:value="${product != null ? product.img4 : ''}">
+            <input type="hidden" name="video_url" th:value="${product != null ? product.videoUrl : ''}">
+
+            <button type="submit" class="register-btn" th:text="${product != null && product.prodId != 0 ? '수정하기' : '등록하기'}">등록하기</button>
+        </form>
+    </section>
+
+
+
+
+    </body>
+
+</th:block>
+
+<!-- 주소 검색 API-->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function address() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+
+
+                } else {
+                    document.getElementById("sample6_extraAddress").value = '';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample6_postcode').value = data.zonecode;
+
+                document.getElementById("sample6_address").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("sample6_detailAddress").focus();
+            }
+        }).open();
+    }
+</script>
+<link rel="stylesheet" href="/css/prod/productReg.css" th:href="@{/css/prod/productReg.css}">
+<script src="/js/prod/productReg.js" th:src="@{/js/prod/productReg.js}"></script>

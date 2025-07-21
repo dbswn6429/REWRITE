@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/orderList.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="scrollToTop.js"></script>
+    
+    
+    <script>
+        $(function() {
+          $("#sidebar").load("sideBar.html");
+        });
+    </script>
+
+</head>
+<body>
+    <header class="header">
+        <div class="header_top">
+            <ul class="header_semi_menu">
+                <li><a href="#">고객센터</a></li>
+                <li><a href="#">알림</a></li>
+                <li><a href="#">로그인</a></li>
+            </ul>
+        </div>
+        <div class="header_bottom">
+            <div class="logo_box">
+                <img src="../img/logo.png" alt="logo">
+            </div>
+            <div class="drop_menu">
+                <ul class="e_drop">
+                    <li>
+                        <a href="#" class="default_m">CLOTHING</a>
+                        <a href="#" class="hover_m">의류</a>
+                    </li>
+                    <li>
+                        <a href="#" class="default_m">GAMES</a>
+                        <a href="#" class="hover_m">게임</a>
+                    </li>
+                    <li>
+                        <a href="#" class="default_m">APPLIANCES</a>
+                        <a href="#" class="hover_m">가전제품</a>
+                    </li>
+                    <li>
+                        <a href="#" class="default_m">ELECTRONICS</a>
+                        <a href="#" class="hover_m">전자기기</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="sub_icon">
+                <img src="../img/mypage_icon.png" alt="my_page">
+                <img src="../img/mycart_icon.png" alt="my_cart">
+            </div>
+        </div>
+    </header>
+
+    
+
+    <section class="section">
+        <div id="sidebar"></div>
+        <div class="box">
+            <div class="card">
+                <div class="left">
+                    <div class="img_box">
+                        <img src="../img/하루만기다리면(소리지름).jpeg" alt="제품사진">
+                    </div>
+                    
+                    <div class="left_box">
+
+                        <div class="first">
+                            <strong>제품명 : </strong> <strong>소리지르는 나</strong>
+                        </div>
+
+                        <div class="second">
+                            <span>가격 : </span> <span>212,000원</span>
+                        </div>
+
+                        <div class="third">
+                            <span>판매자 : </span> <span>소리지르는 너</span>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="right">
+
+                    <div class="icon_box">
+                        <a href="#"><img src="../img/Right.png" alt="상세보기"></a>
+                    </div>
+
+                    <div class="right_box">
+                        <div class="first">
+                            <p>주문일자</p>
+                            <p>2025.04.09</p>
+                        </div>
+                        
+                        <div class="second">
+                            <strong>픽업대기</strong>
+                        </div>
+                        
+                        
+                    </div>
+
+                    
+                </div>
+
+           </div>
+
+            <div class="card">
+                <div class="left">
+                    <div class="img_box">
+                        <img src="../img/하루만기다리면(안경).jpg" alt="제품사진">
+                    </div>
+                    
+                    <div class="left_box">
+
+                        <div class="first">
+                            <strong>제품명 : </strong> <strong>안경쓴 나</strong>
+                        </div>
+
+                        <div class="second">
+                            <span>가격 : </span> <span>313,000원</span>
+                        </div>
+
+                        <div class="third">
+                            <span>판매자 : </span> <span>안경쓴 너</span>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="right">
+
+                    <div class="icon_box">
+                        <a href="#"><img src="../img/Right.png" alt="상세보기"></a>
+                        
+                    </div>
+
+                    <div class="right_box">
+                        <div class="first">
+                            <p>주문일자</p>
+                            <p>2025.04.08</p>
+                        </div>
+                        
+                        <div class="second">
+                            <strong style="color: rgb(255, 179, 0);">배송중</strong>
+                        </div>
+                        
+                        
+                    </div>
+
+                    
+                </div>
+
+            </div>
+
+        <div class="card">
+            <div class="left">
+                <div class="img_box">
+                    <img src="../img/하루만기다리면(미소).jpeg" alt="제품사진">
+                </div>
+                <div class="left_box">
+                    <div class="first">
+                        <strong>제품명 : </strong> <strong>웃는 나</strong>
+                    </div>
+                    <div class="second">
+                        <span>가격 : </span> <span>414,000원</span>
+                    </div>
+                    <div class="third">
+                        <span>판매자 : </span> <span>웃는 너</span>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="icon_box">
+                    <a href="#"><img src="../img/Right.png" alt="상세보기"></a>
+                </div>
+                <div class="right_box">
+                    <div class="first">
+                        <p>주문일자</p>
+                        <p>2025.04.05</p>
+                    </div>
+                    <div class="second">
+                        <strong style="color: green;">배송완료</strong>
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div>
+       
+    <button class="top" onclick="scrollToTop()">TOP</button>
+
+
+    </section>
+    <footer class="footer">
+        <div class="footer_wrap">
+            <div class="footer_top">
+                <ul class="f_flex f_top_ul">
+                    <li><a href="#" class="f_single">개인정보처리방침</a></li>
+                    <li><a href="#" class="f_notice">이용안내</a></li>
+                </ul>
+            </div>
+            <div class="footer_mid">
+                <ul class="f_flex">
+                    <li>상호명 : (주)REWRITE</li>
+                    <li>대표자 : 따악코</li>
+                    <li>주소 : 서울시 강남구 테헤란로7길 에스코빌딩</li>
+                    <li>전화번호 : 1234-5678</li>
+                    <li>팩스 : 02-9876-5432</li>
+                    <li>이메일 : rewrite@rewrite.com</li>
+                </ul>
+            </div>
+            <div class="footer_mid_sec">
+                <ul class="f_flex f_mid_sub">
+                    <li>사업자등록번호 : 202-50410</li>
+                    <li>통신판매업신고 : 제25-0410호</li>
+                </ul>
+            </div>
+            <div class="footer_mid_thd">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="footer_bottom">
+                <p class="f_flex">Copyright © 2025 Jongsu Macne. All rights reserved. Created by JongSu</p>
+            </div>
+        </div>
+    </footer>
+
+    
+</body>
+</html>

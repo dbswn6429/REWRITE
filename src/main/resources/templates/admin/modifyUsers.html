@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사용자 관리</title>
+    <link rel="stylesheet" href="admin_users.css"> <!-- CSS 파일 연결 -->
+    <style>
+
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* 검색 및 필터 */
+        .search-filter-area {
+            display: flex;
+            gap: 10px; /* 요소 사이 간격 */
+            margin-bottom: 20px;
+            flex-wrap: wrap; /* 작은 화면에서 줄바꿈 */
+        }
+
+        .search-filter-area input[type="search"] {
+            flex-grow: 1; /* 가능한 많은 공간 차지 */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .search-filter-area select,
+        .search-filter-area button {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #eee;
+            cursor: pointer;
+        }
+
+        .search-filter-area button {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .search-filter-area button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 사용자 테이블 */
+        .user-table {
+            width: 100%;
+            border-collapse: collapse; /* 테두리 합치기 */
+            margin-bottom: 20px;
+        }
+
+        .user-table th,
+        .user-table td {
+            border: none;
+            padding: 12px;
+            text-align: left;
+            vertical-align: middle; /* 내용 중간 정렬 */
+        }
+
+        .user-table th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .user-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* 짝수 행 배경색 */
+        }
+
+        .user-table tbody tr:hover {
+            background-color: #f1f1f1; /* 마우스 오버시 배경색 */
+        }
+
+        /* 관리 버튼 */
+        .user-table td button {
+            margin-right: 5px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .btn-edit-role {
+            background-color: #ffc107; /* 노란색 계열 */
+            color: #333;
+        }
+        .btn-edit-role:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-view-detail {
+            background-color: #17a2b8; /* 청록색 계열 */
+            color: white;
+        }
+        .btn-view-detail:hover {
+            background-color: #138496;
+        }
+
+        /* 페이지네이션 (기본 스타일) */
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* 반응형 (간단 예시) */
+        @media (max-width: 768px) {
+            .search-filter-area {
+                flex-direction: column; /* 작은 화면에서 세로 정렬 */
+            }
+            .user-table {
+                font-size: 0.9em; /* 작은 화면에서 글자 크기 약간 줄임 */
+            }
+            .user-table th,
+            .user-table td {
+                padding: 8px;
+            }
+            /* 테이블이 너무 길면 스크롤 처리 등이 필요할 수 있음 */
+        }
+        /* CSS 파일에 추가 */
+
+        /* 삭제 버튼 스타일 */
+        .btn-delete-user {
+            background-color: #dc3545; /* 빨간색 계열 */
+            color: white;
+        }
+        .btn-delete-user:hover {
+            background-color: #c82333; /* 더 진한 빨간색 */
+        }
+
+        /* 기존 버튼과의 간격 유지 */
+        .user-table td button {
+            /* 기존 스타일 유지 */
+            margin-right: 5px; /* 버튼 간 오른쪽 여백 */
+            /* ... 기존 다른 스타일 ... */
+        }
+        /* 마지막 버튼에는 오른쪽 여백 제거 (선택 사항) */
+        .user-table td button:last-child {
+            margin-right: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>사용자 관리</h1>
+
+    <!-- 검색 및 필터 영역 -->
+    <div class="search-filter-area">
+        <input type="search" id="searchInput" placeholder="아이디, 닉네임, 이메일 검색...">
+        <select id="roleFilter">
+            <option value="none">역할 전체</option>
+            <option value="user">user</option>
+            <option value="admin">admin</option>
+            <!-- 다른 역할이 있다면 추가 -->
+        </select>
+        <button id="searchButton">검색</button>
+    </div>
+
+    <!-- 사용자 목록 테이블 -->
+    <table class="user-table">
+        <thead>
+        <tr>
+            <th>UID</th>
+            <th>아이디</th>
+            <th>닉네임</th>
+            <th>이메일</th>
+            <th>가입일</th>
+            <th>역할</th>
+            <th>관리</th>
+        </tr>
+        </thead>
+        <tbody id="userTableBody">
+        </tbody>
+    </table>
+
+    <div class="pagination">
+    </div>
+</div>
+
+<!-- 역할 변경 모달 등 추가 UI 요소 (필요시) -->
+<!-- <div id="roleChangeModal" class="modal"> ... </div> -->
+
+<script src="admin_users.js"></script> <!-- JavaScript 파일 연결 -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const userTableBody = document.getElementById('userTableBody');
+        const searchInput = document.getElementById('searchInput');
+        const roleFilter = document.getElementById('roleFilter');
+        const searchButton = document.getElementById('searchButton');
+
+        // --- 이벤트 리스너 ---
+        searchButton.addEventListener('click', fetchAndRenderUsers);
+        searchInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                fetchAndRenderUsers();
+            }
+        });
+        roleFilter.addEventListener('change', fetchAndRenderUsers);
+
+        // 테이블 내 버튼 클릭 이벤트 위임 (동적으로 생성된 버튼 처리)
+        userTableBody.addEventListener('click', (event) => {
+            const target = event.target;
+            const uid = target.dataset.uid; // 버튼에 data-uid 속성 값 가져오기
+
+            if (target.classList.contains('btn-edit-role') && uid) {
+                handleChangeRole(uid);
+            } else if (target.classList.contains('btn-view-detail') && uid) {
+                handleViewDetail(uid);
+            } else if (target.classList.contains('btn-delete-user') && uid) { // <-- 삭제 버튼 핸들러 추가
+                handleDeleteUser(uid);
+            }
+        });
+
+        // --- 함수 ---
+
+        /**
+         * 서버에서 사용자 목록을 가져와 테이블에 렌더링합니다.
+         */
+        async function fetchAndRenderUsers() {
+            const searchTerm = searchInput.value.trim();
+            const selectedRole = roleFilter.value;
+
+            const apiUrl = `/api/admin/users?search=${searchTerm}&role=${selectedRole}`;
+
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const users = await response.json();
+
+                renderUserTable(users);
+
+            } catch (error) {
+                console.error("사용자 목록 로딩 실패:", error);
+                userTableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: red;">사용자 정보를 불러오는 데 실패했습니다.</td></tr>`;
+            }
+        }
+
+        /**
+         * 사용자 데이터를 받아 테이블 본문(tbody)을 생성합니다.
+         * @param {Array<object>} users - 사용자 객체 배열
+         */
+        function renderUserTable(users) {
+            userTableBody.innerHTML = ''; // 기존 내용 비우기
+
+            if (!users || users.length === 0) {
+                userTableBody.innerHTML = `<tr><td colspan="7" style="text-align: center;">표시할 사용자가 없습니다.</td></tr>`;
+                return;
+            }
+
+            users.forEach(user => {
+                const row = userTableBody.insertRow();
+
+                // 날짜 포맷팅 (간단하게)
+                const regDate = user.regDate ? new Date(user.regDate).toISOString().split('T')[0] : '-';
+
+                row.innerHTML = `
+                <td>${user.uid}</td>
+                <td>${escapeHtml(user.id)}</td>
+                <td>${escapeHtml(user.nickname)}</td>
+                <td>${escapeHtml(user.email)}</td>
+                <td>${regDate}</td>
+                <td>${escapeHtml(user.role)}</td>
+                <td>
+                    <button class="btn-edit-role" data-uid="${user.uid}">역할 변경</button>
+                    <button class="btn-view-detail" data-uid="${user.uid}">판매 물품</button>
+                    <button class="btn-delete-user" data-uid="${user.uid}">삭제</button>
+                </td>
+            `;
+            });
+        }
+
+        /**
+         * 역할 변경 버튼 클릭 시 호출될 함수 (실제 구현 필요)
+         * @param {string} uid - 사용자 UID
+         */
+        function handleChangeRole(uid) {
+            console.log(`사용자 UID ${uid}의 역할 변경 시도`);
+            const newRole = prompt(`사용자 UID ${uid}의 새 역할을 입력하세요 (예: admin, user):`);
+            if (newRole && (newRole === 'admin' || newRole === 'user')) {
+                alert(` UID ${uid} 사용자의 역할을 ${newRole}(으)로 변경합니다.`);
+                const newRoleData = {}
+                newRoleData.uid = uid;
+                newRoleData.role = newRole;
+                fetch(`/api/admin/setUserRole`, {
+                    method: 'POST', // 또는 PUT
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newRoleData)
+                }).then(response => {
+                    if (response.ok) {
+                        alert('역할이 변경되었습니다.');
+                        fetchAndRenderUsers(); // 테이블 새로고침
+                    } else {
+                        alert('역할 변경 실패');
+                    }
+                }).catch(error => console.error('역할 변경 API 오류:', error));
+            } else if (newRole !== null) { // 취소가 아닌 경우
+                alert('잘못된 역할 값입니다. "user" 또는 "admin"을 입력하세요.');
+            }
+        }
+
+        /**
+         * 상세 보기 버튼 클릭 시 호출될 함수 (실제 구현 필요)
+         * @param {string} uid - 사용자 UID
+         */
+        function handleViewDetail(uid) {
+            window.location.href = `/admin/modifyProducts?uid=${uid}`;
+        }
+
+        function handleDeleteUser(uid) {
+
+            fetch(`/api/admin/users/${uid}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('사용자 삭제 성공')
+                        fetchAndRenderUsers();
+                    }else {
+                        response.json().then(errorData => {
+                            alert('사용자 삭제 실패: ' + errorData.message);
+                        })
+                    }
+                })
+                .catch(error =>{
+                    console.error('사용자 삭제 오류', error);
+                    alert('사용자 삭제 중 오류 발생')
+                });
+        }
+
+        // --- 유틸리티 함수 ---
+
+        /**
+         * HTML 문자열을 안전하게 이스케이프 처리합니다. (XSS 방지)
+         * @param {string} str - 이스케이프할 문자열
+         * @returns {string} 이스케이프된 문자열
+         */
+        function escapeHtml(str) {
+            if (typeof str !== 'string') return str;
+            return str.replace(/[&<>"']/g, function(match) {
+                const escape = {
+                    '&': '&', '<': '<', '>': '>', '"': '"'
+                };
+                return escape[match];
+            });
+        }
+
+        // 페이지 로드 시 초기 사용자 목록 표시
+        fetchAndRenderUsers();
+
+    });
+</script>
+</body>
+</html>

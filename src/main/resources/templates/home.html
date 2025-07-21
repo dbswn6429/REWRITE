@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>메인 페이지</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        a { text-decoration: none; color: blue; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<h1>메인 페이지에 오신 것을 환영합니다!</h1>
+
+<!--이미 로그인중인데 다시 로그인 시도시 alert창-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var message = /*[[${loginMsg}]]*/ null;
+    if (message) {
+        alert(message);
+    }
+    /*]]>*/
+</script>
+
+<div th:if="${session.user}">
+    안녕하세요. <span th:text="${session.user.nickname}"></span> 님. <br>
+    가입정보입니다. <br>
+    이름 : <span th:text="${session.user.name}"></span> <br>
+    아이디 : <span th:text="${session.user.id}"></span> <br>
+    권한 : <span th:text="${session.user.role}"></span> <br>
+</div>
+
+<p th:unless="${session.user}"><a href="/user/login">로그인 하러 가기</a></p>
+<p><a href="/logout" methods="post">로그아웃</a></p>
+<form action="/logout" method="post">
+    <button type="submit">로그아웃</button>
+</form>
+<p><a href="/upload">파일 업로드 하러 가기</a></p>
+<p><a href="https://storage.googleapis.com/rewrite_project/Dark.Nuns.2025.1080P.Web-Dl.Aac5.1.X265-Neonoir.mp4">검은 수녀들 보러가기 </a></p>
+<p><a href="/qna/qnaWrite">문의 하러가기</a></p>
+<p><a href="/qna/qnaList">문의 리스트</a></p>
+<p><a href="/prod/orderPay">주문</a> </p>
+
+<div sec:authorize="hasRole('ADMIN')">
+    <h2> 어드민 전용 메뉴</h2>
+    <p><a href="/admin/modifyUsers">유저관리</a></p>
+    <p><a href="/admin/modifyProducts">상품관리</a></p>
+    <p><a href="/admin/noticeWrite">공지사항 작성하러가기</a></p>
+    <p><a href="/admin/qnaList">문의답변 작성하러가기</a></p>
+</div>
+
+<div>
+    <p>현재 권한: <span sec:authentication="principal.authorities"></span></p>
+</div>
+
+
+
+</body>
+</html>

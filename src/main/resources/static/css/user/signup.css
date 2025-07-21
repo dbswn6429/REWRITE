@@ -1,0 +1,111 @@
+/* 기본 스타일 및 폰트 설정 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif; /* 기본 한글 폰트 */
+    background-color: #ffffff; /* 기본 흰색 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* 화면 전체 높이 */
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px; /* 폼 최대 너비 설정 */
+    padding: 20px;
+}
+
+.signup-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 자식 요소들(로고 이미지 포함)을 중앙 정렬 */
+}
+
+/* 로고 이미지 스타일 */
+.logo-image {
+    display: block; /* 이미지를 블록 요소로 만들어 margin auto 적용 가능하게 */
+    max-width: 150px; /* 이미지 최대 너비 (로고 크기에 맞게 조절) */
+    height: auto; /* 높이는 비율에 맞게 자동 조절 */
+    margin: 0 auto 10px auto; /* 상하 0, 좌우 auto로 중앙 정렬, 아래쪽 여백 10px */
+}
+
+
+/* 페이지 타이틀 */
+.page-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 40px; /* 타이틀 아래 여백 */
+    text-align: center;
+}
+
+/* 입력 필드 그룹 */
+.input-group {
+    width: 100%;
+    margin-bottom: 25px; /* 각 입력 필드 사이 여백 */
+    position: relative;
+}
+
+.input-group label {
+    display: block; /* 레이블을 블록 요소로 만들어 줄바꿈 */
+    font-size: 0.8rem; /* 레이블 폰트 크기 */
+    color: #888; /* 레이블 색상 */
+    margin-bottom: 8px; /* 레이블과 입력 필드 사이 여백 */
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px 0; /* 상하 패딩, 좌우는 0 */
+    font-size: 1rem;
+    border: none; /* 기본 테두리 제거 */
+    border-bottom: 1px solid #e0e0e0; /* 아래쪽 테두리만 */
+    background-color: transparent; /* 배경 투명 */
+    outline: none; /* 포커스 시 외곽선 제거 */
+    box-sizing: border-box; /* 패딩 포함 너비 계산 */
+    transition: border-color 0.3s ease; /* 포커스 효과 부드럽게 */
+}
+
+/* 입력 필드 포커스 효과 */
+.input-group input:focus {
+    border-bottom-color: #555; /* 포커스 시 아래쪽 테두리 색상 변경 */
+}
+
+/* 입력 필드 플레이스홀더 스타일 (선택적) */
+.input-group input::placeholder {
+    color: #bbb;
+    font-size: 0.9rem;
+}
+
+
+/* 가입하기 버튼 */
+.submit-button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #666; /* 버튼 텍스트 색상 */
+    background-color: #f0f0f0; /* 버튼 배경색 (이미지와 유사하게) */
+    border: none;
+    border-radius: 5px; /* 약간 둥근 모서리 */
+    cursor: pointer;
+    margin-top: 20px; /* 입력 필드 그룹과 버튼 사이 여백 */
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #e0e0e0; /* 마우스 오버 시 약간 어둡게 */
+}
+
+/* 기존 CSS 코드 아래에 추가 */
+
+/* 에러 메시지 스타일 */
+.error-message {
+    display: block; /* span을 블록 요소로 만들어 줄바꿈 및 margin 적용 */
+    color: #dc3545; /* 에러 메시지 색상 (빨간색 계열) */
+    font-size: 0.8rem; /* 작은 폰트 크기 */
+    margin-top: 5px; /* 입력 필드와의 상단 여백 */
+    min-height: 1em; /* 메시지가 없을 때도 공간을 차지하도록 (선택 사항) */
+}

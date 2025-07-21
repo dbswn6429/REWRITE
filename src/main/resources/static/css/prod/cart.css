@@ -1,0 +1,290 @@
+/* --- 기본 스타일 및 초기화 --- */
+* {
+    font-family: "Arial", sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+section{
+    min-height: 550px;
+    margin-top:50px ;
+}
+
+.cart-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* visually-hidden 클래스 (스크린리더만 읽도록) */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+
+/* --- 페이지 헤더 (결제 페이지와 유사) --- */
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.cart-header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 0; /* Reset margin when in flex */
+}
+
+.checkout-progress { /* 이전 CSS 재사용 */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 5px;
+    font-size: 14px;
+    color: #aaaaaa;
+}
+
+.checkout-progress li {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.checkout-progress li:not(:last-child)::after {
+    content: ">";
+    color: #cccccc;
+}
+
+.checkout-progress li.current-step {
+    color: #333333;
+    font-weight: bold;
+}
+
+
+/* --- 상단 컨트롤 --- */
+.cart-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee; /* 구분선 */
+}
+
+.select-all-container {
+    display: flex;
+    align-items: center;
+}
+
+.select-all-container input[type="checkbox"] {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    accent-color: #555; /* 체크박스 색상 */
+}
+
+.select-all-container label {
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+    background-color: #f8f8f8; /* 이미지와 유사한 버튼 스타일 */
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    line-height: 1; /* 버튼처럼 보이도록 라인 높이 조정 */
+}
+
+.delete-selected-button {
+    font-size: 12px;
+    padding: 5px 10px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #555;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.delete-selected-button:hover {
+    background-color: #eee;
+}
+
+
+/* --- 장바구니 상품 목록 --- */
+.cart-items {
+    margin-bottom: 30px;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px; /* 둥근 모서리 */
+    margin-bottom: 15px; /* 상품 간 간격 */
+    gap: 15px; /* 요소들 사이 간격 */
+}
+
+.item-selection input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #555;
+    cursor: pointer;
+}
+
+.item-thumbnail {
+    width: 80px; /* 이미지 크기 */
+    height: 80px;
+    object-fit: contain; /* 이미지가 잘리지 않게 */
+    border: 1px solid #eee;
+    border-radius: 6px; /* 이미지 모서리 약간 둥글게 */
+    background-color: #fdfdfd; /* 이미지 배경 약간 */
+    flex-shrink: 0; /* 이미지 크기 줄어들지 않게 */
+}
+
+.item-details {
+    flex-grow: 1; /* 남는 공간 차지 */
+    display: flex;
+    flex-direction: column; /* 세로로 쌓기 */
+    gap: 3px; /* 상세 정보 간 간격 */
+}
+
+.item-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px; /* 이름 아래 약간의 여백 */
+}
+
+.item-seller,
+.item-category {
+    font-size: 13px;
+    color: #777;
+}
+
+.item-price {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    min-width: 100px; /* 가격 영역 너비 확보 */
+    text-align: right;
+    white-space: nowrap; /* 가격 줄바꿈 방지 */
+}
+
+.item-delete-button {
+    font-size: 12px;
+    padding: 6px 12px;
+    background-color: #f8d7da; /* 연한 핑크/빨강 배경 */
+    border: 1px solid #f5c6cb; /* 테두리 */
+    border-radius: 4px;
+    color: #721c24; /* 진한 빨강 계열 텍스트 */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0; /* 버튼 크기 줄어들지 않게 */
+}
+
+.item-delete-button:hover {
+    background-color: #f1b0b7;
+}
+
+
+/* --- 하단 주문 버튼 --- */
+.cart-summary {
+    margin-top: 30px;
+    text-align: center; /* 버튼 중앙 정렬 */
+}
+
+.order-button {
+    display: inline-block; /* 너비를 내용에 맞춤 */
+    width: 100%; /* 또는 필요시 전체 너비 */
+    max-width: 400px; /* 최대 너비 제한 (선택 사항) */
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #555; /* 회색 계열 텍스트 */
+    background-color: #e9ecef; /* 연한 회색 배경 */
+    border: 1px solid #ced4da; /* 테두리 */
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.order-button:hover {
+    background-color: #dee2e6;
+}
+
+
+/* --- 반응형 조정 (선택 사항) --- */
+@media (max-width: 768px) {
+    .cart-item {
+        padding: 15px;
+        gap: 10px;
+    }
+    .item-thumbnail {
+        width: 60px;
+        height: 60px;
+    }
+    .item-name {
+        font-size: 14px;
+    }
+    .item-seller, .item-category, .item-delete-button {
+        font-size: 11px;
+    }
+    .item-price {
+        font-size: 14px;
+        min-width: 80px;
+    }
+    .item-delete-button {
+        padding: 5px 8px;
+    }
+    .order-button {
+        font-size: 16px;
+        padding: 12px 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .cart-header { /* 헤더 세로 쌓기 */
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .checkout-progress {
+        margin-top: 10px;
+    }
+    .cart-controls { /* 컨트롤 요소 간격 조정 */
+        font-size: 13px;
+    }
+    .select-all-container label, .delete-selected-button {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+    .cart-item { /* 상품 정보 더 유연하게 배치 */
+        flex-wrap: wrap; /* 공간 부족 시 줄바꿈 */
+        position: relative; /* 삭제 버튼 위치 조정 위해 */
+        padding-bottom: 45px; /* 삭제 버튼 공간 확보 */
+    }
+    .item-details {
+        width: calc(100% - 80px - 30px); /* 이미지, 체크박스 제외한 너비 */
+    }
+    .item-price {
+        width: auto;
+        position: absolute; /* 가격 위치 조정 */
+        bottom: 15px;
+        right: 80px; /* 삭제 버튼 옆 */
+        text-align: right;
+    }
+    .item-delete-button {
+        position: absolute; /* 삭제 버튼 위치 조정 */
+        bottom: 10px;
+        right: 15px;
+    }
+}

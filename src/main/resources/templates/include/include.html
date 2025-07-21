@@ -1,0 +1,128 @@
+<th:block th:fragment="def (item)">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReWrite</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="stylesheet" href="/css/common.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <script src="js/script.js"></script>
+</head>
+
+<body>
+<div id="semi_wrap">
+<!--  타임리프 코드 2개가 아래에 있는 삼항연산식으로 변경  -->
+<!--    <th:block th:replace="~{include/popup :: def(~{::*})}"/>-->
+    <th:block th:if="${qnaForPopup != null}"> <!-- 팝업을 위한 qna 데이터가 있을 때만 팝업을 렌더링 (예시 조건) -->
+        <th:block th:replace="~{include/popup :: def(item=${qnaForPopup})}"/>
+    </th:block>
+    <th:block th:if="${userAddressList != null}"> <!-- 컨트롤러에서 'userAddressList'라는 이름으로 주소 목록을 전달한다고 가정 -->
+        <th:block th:replace="~{include/payPopup :: def(addressList=${userAddressList})}"/>
+    </th:block>
+    <!-- 하나의 표현식으로 조건부 렌더링 -->
+<!--    <th:block th:replace="${pageType == 'qna'} ? ~{include/popup :: def(~{::*})} : (${pageType == 'order'} ? ~{include/payPopup :: def(~{::*})} : ~{})"></th:block>-->
+
+
+    <header class="header">
+        <div class="header_top">
+            <ul class="header_semi_menu user_ul">
+
+                <!-- ADMIN 사용자 메뉴 -->
+                <th:block sec:authorize="hasRole('ADMIN')">
+                    <li class="nomal"><a th:href="@{/admin/modifyUsers}">유저관리</a></li>
+                    <li class="nomal"><a th:href="@{/admin/modifyProducts}">상품관리</a></li>
+                    <li class="nomal"><a th:href="@{/admin/noticeWrite}">공지작성</a></li>
+                    <li class="nomal"><a th:href="@{/logout}">로그아웃</a></li>
+                </th:block>
+
+                <th:block sec:authorize="!hasRole('ADMIN')">
+                    <li class="user_li"><a href="/user/cs_main">고객센터</a></li>
+                    <li class="user_li"><a href="#">알림</a></li>
+                    <li class="user_li" th:unless="${session.user}">
+                        <a th:href="@{/user/login}">로그인</a>
+                    </li>
+                    </li>
+                    <li th:if="${session.user}">
+                        <a th:href="@{/logout}">로그아웃</a>
+                    </li>
+                </th:block>
+
+            </ul>
+        </div>
+        <div class="header_bottom">
+            <div class="logo_box">
+                <a href="/"><img src="/img/logo.png" alt="logo"></a>
+            </div>
+            <div class="drop_menu">
+                <ul class="e_drop">
+                    <li>
+                        <a href="/prod/prodList/의류" class="default_m">CLOTHING</a>
+                        <a href="/prod/prodList/의류" class="hover_m">의류</a>
+                    </li>
+                    <li>
+                        <a href="/prod/prodList/게임" class="default_m">GAMES</a>
+                        <a href="/prod/prodList/게임" class="hover_m">게임</a>
+                    </li>
+                    <li>
+                        <a href="/prod/prodList/가전제품" class="default_m">APPLIANCES</a>
+                        <a href="/prod/prodList/가전제품" class="hover_m">가전제품</a>
+                    </li>
+                    <li>
+                        <a href="/prod/prodList/전자기기" class="default_m">ELECTRONICS</a>
+                        <a href="/prod/prodList/전자기기" class="hover_m">전자기기</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="sub_icon">
+                <a href="/user/mypage"><img src="/img/mypage_icon.png" alt="my_page"></a>
+                <a href="/prod/cart"><img src="/img/mycart_icon.png" alt="my_cart"></a>
+            </div>
+        </div>
+    </header>
+
+        <th:block th:replace="${item}"></th:block>
+
+    <footer class="footer">
+        <div class="footer_wrap">
+            <div class="footer_top">
+                <ul class="f_flex f_top_ul">
+                    <li><a href="#" class="f_single">개인정보처리방침</a></li>
+                    <li><a href="#" class="f_notice">이용안내</a></li>
+                </ul>
+            </div>
+            <div class="footer_mid">
+                <ul class="f_flex">
+                    <li>상호명 : (주)REWRITE</li>
+                    <li>대표자 : 따악코</li>
+                    <li>주소 : 서울시 강남구 테헤란로7길 에스코빌딩</li>
+                    <li>전화번호 : 1234-5678</li>
+                    <li>팩스 : 02-9876-5432</li>
+                    <li>이메일 : rewrite@rewrite.com</li>
+                </ul>
+            </div>
+            <div class="footer_mid_sec">
+                <ul class="f_flex f_mid_sub">
+                    <li>사업자등록번호 : 202-50410</li>
+                    <li>통신판매업신고 : 제25-0410호</li>
+                </ul>
+            </div>
+            <div class="footer_mid_thd">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="footer_bottom">
+                <p class="f_flex">Copyright © 2025 Jongsu Macne. All rights reserved. Created by JongSu</p>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+
+</html>
+</th:block>

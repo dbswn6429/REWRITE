@@ -1,0 +1,46 @@
+*{
+    font-family: "Arial", sans-serif;
+    padding: 0;
+    margin: 0;
+
+}
+
+.section_left{position:absolute; margin-left: -110px;}
+
+.side-list  {
+    list-style: none;
+    margin-top: 20px;
+    
+}
+
+.side-list > p {
+    font-weight: 700;
+}
+
+.side-list > li {
+    list-style: none;
+    
+}
+
+.side-list  a {
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+    
+}
+
+.myPage {
+    padding-left: 15px;
+}
+
+.title2 {
+    padding-right: 23px;
+    border-bottom: 2px #777 solid;
+    font-size: 32px;
+    padding-bottom: 10px;
+}
+
+.sub_title {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}

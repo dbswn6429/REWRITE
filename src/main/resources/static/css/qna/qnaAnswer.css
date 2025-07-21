@@ -1,0 +1,143 @@
+/* --- 기본 스타일 및 폰트 설정 (이전과 유사) --- */
+*{margin: 0;padding: 0;font-family: 'Noto Sans KR', sans-serif;}
+
+.section {color: #333;display: flex;justify-content: center;align-items: flex-start;min-height: 500px;box-sizing: border-box;padding: 50px 20px;}
+
+
+.container {
+    width: 100%;
+    max-width: 700px; /* 상세 보기 너비 조절 */
+    padding: 20px;
+}
+
+/* 로고 이미지 스타일 (필요 시) */
+.logo-image {
+    display: block;
+    max-width: 150px;
+    height: auto;
+    margin: 0 auto 20px auto;
+}
+
+/* 페이지 타이틀 */
+.page-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #333; /* 타이틀 아래 선 */
+    text-align: left;
+}
+
+/* --- 폼 그룹 및 레이블 스타일 (레이아웃 재사용) --- */
+.form-group {
+    width: 100%;
+    margin-bottom: 15px; /* 그룹 간 여백 약간 줄임 */
+    display: flex;
+    align-items: center; /* 기본 세로 중앙 정렬 */
+}
+
+.form-group-textarea {
+    align-items: flex-start; /* Textarea 및 내용 표시는 상단 정렬 */
+}
+
+.form-group label {
+    flex-basis: 90px; /* 레이블 고정 너비 */
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    color: #555;
+    padding-right: 15px;
+    font-weight: 500;
+    box-sizing: border-box;
+}
+
+.form-group-textarea label {
+    padding-top: 10px; /* Textarea/내용 레이블 상단 패딩 */
+}
+
+/* --- 입력/표시 요소 래퍼 --- */
+.input-wrapper {
+    flex-grow: 1;
+    position: relative;
+}
+
+/* --- 읽기 전용 내용 표시 스타일 --- */
+.read-only-content {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9; /* 읽기 전용 배경색 (선택적) */
+    min-height: 38px; /* 입력 필드와 높이 유사하게 (border+padding 고려) */
+    box-sizing: border-box;
+    color: #333;
+    line-height: 1.6; /* 줄 간격 */
+    word-break: break-word; /* 긴 단어 줄바꿈 */
+}
+
+/* 문의 내용 표시 스타일 (여러 줄 처리) */
+.content-display {
+    min-height: 150px; /* 내용 최소 높이 */
+    white-space: pre-line; /* 줄바꿈 문자(\n)를 인식하여 표시 */
+    background-color: #fff; /* 내용 부분은 흰색 배경 */
+}
+
+/* --- 답변 입력 Textarea 스타일 (이전과 동일) --- */
+.input-wrapper textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+    min-height: 150px; /* 답변 영역 최소 높이 */
+    line-height: 1.6;
+}
+
+.input-wrapper textarea:focus {
+    border-color: #888;
+}
+
+.input-wrapper textarea::placeholder {
+    color: #bbb;
+    font-size: 0.9rem;
+}
+
+
+/* --- 버튼 컨테이너 및 버튼 스타일 --- */
+.button-container {
+    text-align: center; /* 버튼 중앙 정렬 */
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee; /* 버튼 위 구분선 */
+    padding-bottom: 40px;
+}
+
+/* 목록으로 버튼 스타일 (재사용 또는 수정) */
+.list-button {
+    display: inline-block;
+    padding: 12px 40px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #666;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.list-button:hover {
+    background-color: #e0e0e0;
+}
+
+/* 답변 저장 버튼 스타일 (필요 시 추가) */
+/*
+.submit-button { ... }
+*/

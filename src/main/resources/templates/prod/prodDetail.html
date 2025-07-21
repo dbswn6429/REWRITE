@@ -1,0 +1,102 @@
+<th:block th:replace="~{include/include :: def(~{::#wrap})} ">
+  <section id="wrap">
+
+      <script th:if="${message}" th:inline="javascript">
+          /*<![CDATA[*/
+          alert([[${message}]]);
+          /*]]>*/
+      </script>
+
+      <div class="product-container" >
+          <div class="product-image">
+            <div class="image-slider">
+                <div class="slider-area">
+                    <div th:if="${product.prodStatus} == '판매완료'" class="soldout-badge">판매완료</div>
+                  <button id="prevBtn" class="slider-btn slider-btn-left">&#60;</button>
+                  <div id="sliderContent">
+
+                      <div id="mediaWrapper"></div>
+                  </div>
+                  <button id="nextBtn" class="slider-btn slider-btn-right">&#62;</button>
+                </div>
+              </div>
+              <div style="display:none;">
+                  <div id="mediaData" th:data-media="${ product.videoUrl + ',' +  product.img1 + ',' + product.img2 + ',' + product.img3 + ',' + product.img4 }" style="display: none;"></div>
+              </div>
+            <div class="profile">
+                <div class="profile-img">
+                    <img th:src="${product.userImgUrl}" alt="프로필 이미지" class="profile-img">
+
+                </div>
+                <a class="profile-info" th:href="@{/prod/sellerProdList(uid=${product.uid})}">
+                    <span class="seller-nickname" th:text="${product.userNickname}"> </span>
+                </a>
+<!--                <div class="temp">-->
+<!--                    <img src="../img/레베루.png" alt="레벨">-->
+<!--                </div>-->
+              </div>
+          </div>
+
+          <div class="product-details">
+            <form action="#"></form>
+            <div class="title" th:text="${product.title}"></div>
+            <div class="category-time">
+                <span th:text="${product.categoryMax + '/' + product.categoryMin}"></span>
+                <span class="date" th:text="${#temporals.format(product.regDate, 'yy.MM.dd')}"></span>
+            </div>
+              <div class="price_heart" th:data-product-id="${product.prodId}">
+                    <span class="price" th:text="${#numbers.formatInteger(product.price, 1, 'COMMA')} + '원'"></span>
+                    <span class="heart">
+                    <span class="heart"><i id="heart" class="fa fa-heart-o" style="font-size: 25px; color: black; cursor: pointer;"></i></span>
+                    </span>
+              </div>
+
+            <div class="description">
+                <textarea th:text="${product.description}">상품 설명이 여기에 표시됩니다.</textarea>
+            </div>
+              <div class="meta-info">
+                  <span>조회수: <span th:text="${product.viewCount}"></span></span>
+                  <a th:if="${session.user?.uid != null and session.user?.uid == product.uid and product.prodStatus != '판매완료'}"
+                     th:href="@{/prod/productUpdate(prodId=${product.prodId})}"
+                     class="edit-link">수정하기</a>
+                  <a th:if="${session.user?.uid != null && session.user?.uid == product.uid}"
+                     th:href="@{/prod/productDelete(prodId=${product.prodId})}"
+                     onclick="return confirm('정말 이 상품을 삭제하시겠습니까?');"
+                     class="delete-link">삭제하기</a>
+              </div>
+            <div>
+                <button class="button1" th:onclick="|location.href='@{/prod/prodList}'|" >목록으로</button>
+            </div>
+            <div>
+                <div>
+                    <!-- 판매자가 아닌 경우: 장바구니 버튼 (판매완료가 아닐 때만 보임) -->
+                    <form th:action="@{/cart/add}" method="post"
+                          th:if="${session.user != null and session.user.uid != product.uid and product.prodStatus != '판매완료'}">
+                        <input type="hidden" name="prodId" th:value="${product.prodId}" />
+                        <button type="submit" class="button2" id="cartBtn">장바구니</button>
+                    </form>
+
+                    <!-- 판매자인 경우: 끌어올리기 버튼 (판매완료가 아닐 때만 보임) -->
+                    <form th:action="@{/prod/bump}" method="post"
+                          th:if="${session.user != null and session.user.uid == product.uid and product.prodStatus != '판매완료'}">
+                        <input type="hidden" name="prodId" th:value="${product.prodId}" />
+                        <button type="submit" class="button2" id="bumpBtn">끌어올리기</button>
+                    </form>
+                </div>
+            </div>
+          </form>
+          </div>
+
+       </div>
+
+
+    </section>
+
+
+
+</body>
+</th:block>
+
+<link rel="stylesheet" href="/css/prod/prodDetail.css" th:href="@{/css/prod/prodDetail.css}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="/js/prod/prodDetail.js" th:src="@{/js/prod/prodDetail.js}"></script>

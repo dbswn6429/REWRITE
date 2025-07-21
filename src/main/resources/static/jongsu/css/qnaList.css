@@ -1,0 +1,63 @@
+/* --- 기본 스타일 및 공통 요소 --- */
+*{margin: 0;padding: 0;font-family: 'Noto Sans KR', sans-serif;}
+
+.section {color: #333;display: flex;justify-content: center;align-items: flex-start;min-height: 500px;box-sizing: border-box;padding: 50px 20px;}
+
+.container {width: 100%;max-width: 750px; /* 테이블이므로 너비를 좀 더 넓게 */}
+
+/* 로고 이미지 스타일 (필요 시) */
+.logo-image {display: block;max-width: 150px;height: auto;margin: 0 auto 20px auto;}
+
+/* 페이지 타이틀 */
+.page-title {font-size: 1.5rem;font-weight: 700;color: #333;margin-bottom: 20px;padding-bottom: 10px;border-bottom: 2px solid #000; /* 타이틀 아래 검정색 선 */text-align: left;}
+
+/* --- 테이블 스타일 --- */
+.inquiry-table-container {width: 100%;margin-bottom: 20px; /* 테이블과 버튼 사이 여백 */}
+
+.inquiry-table {width: 100%;border-collapse: collapse; /* 테두리 합치기 */font-size: 0.9rem;}
+.inquiry-table th,
+.inquiry-table td {border-bottom: 1px solid #e0e0e0; /* 행 구분선 */padding: 12px 10px; /* 셀 내부 여백 */text-align: center; /* 기본 중앙 정렬 */vertical-align: middle; /* 세로 중앙 정렬 */border-left: 1px solid #e0e0e0; /* 세로 구분선 */}
+.inquiry-table th:first-child,
+.inquiry-table td:first-child {border-left: none; /* 첫 번째 열 왼쪽 테두리 제거 */}
+.inquiry-table thead th {background-color: #f8f8f8; /* 헤더 배경색 */font-weight: bold;color: #555;border-bottom-width: 1px; /* 헤더 아래 선 두께 */border-bottom-color: #ccc;}
+
+/* 특정 컬럼 정렬 및 너비 (예시) */
+.inquiry-table .col-id { width: 10%; }
+.inquiry-table .col-subject { width: 40%; text-align: left; }
+.inquiry-table .col-writer { width: 15%; }
+.inquiry-table .col-type { width: 15%; }
+.inquiry-table .col-status { width: 20%; }
+
+/* 문의 내용(제목) 셀 스타일 */
+.inquiry-table .subject-cell {text-align: left; /* 제목은 왼쪽 정렬 */}
+.inquiry-table .subject-cell a {color: inherit; /* 링크 색상 기본값 상속 */text-decoration: none;}
+.inquiry-table .subject-cell a:hover {text-decoration: underline; /* 호버 시 밑줄 */}
+
+/* 데이터 없을 때 메시지 */
+.inquiry-table .no-data {text-align: center;padding: 50px 0;color: #888;}
+
+/* --- 액션 버튼 컨테이너 --- */
+.action-container {text-align: right; /* 버튼 오른쪽 정렬 */margin-bottom: 30px; /* 버튼과 페이지네이션 사이 여백 */}
+
+.write-button {display: inline-block;padding: 8px 18px; /* 버튼 패딩 */font-size: 0.9rem;font-weight: 500;color: #fff; /* 흰색 글자 */background-color: #555; /* 어두운 배경색 */border: none;border-radius: 4px;text-decoration: none;cursor: pointer;transition: background-color 0.2s ease;}
+.write-button:hover {background-color: #333; /* 호버 시 더 어둡게 */}
+
+/* --- 페이지네이션 스타일 --- */
+.pagination-container {display: flex;justify-content: center; /* 가운데 정렬 */margin-top: 30px;padding-bottom: 40px; /* 하단 여백 */}
+.pagination {display: flex;padding-left: 0;list-style: none;border-radius: 0.25rem;}
+
+.page-item {margin: 0 2px; /* 페이지 번호 간격 */}
+.page-item:first-child .page-link {border-top-left-radius: 0.25rem;border-bottom-left-radius: 0.25rem;}
+.page-item:last-child .page-link {border-top-right-radius: 0.25rem;border-bottom-right-radius: 0.25rem;}
+
+.page-link {position: relative;display: block;padding: 8px 12px; /* 페이지 번호 패딩 */line-height: 1.25;color: #666; /* 기본 페이지 번호 색상 */background-color: #fff;border: 1px solid #ddd; /* 테두리 */text-decoration: none;font-size: 0.9rem;transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;}
+.page-link:hover {z-index: 2;color: #333;background-color: #e9ecef;border-color: #ddd;}
+
+/* 현재 페이지 스타일 */
+.page-item.active .page-link {z-index: 3;color: #fff;background-color: #555; /* 활성 페이지 배경색 */border-color: #555;font-weight: bold;}
+
+/* 비활성 링크 스타일 */
+.page-item.disabled .page-link {color: #aaa;pointer-events: none;cursor: default;background-color: #fff;border-color: #ddd;}
+
+/* 줄임표 스타일 */
+.page-item.ellipsis .page-link {color: #aaa;pointer-events: none;cursor: default;background-color: #fff;border-color: transparent; /* 테두리 제거 */}

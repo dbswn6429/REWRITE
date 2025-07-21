@@ -1,0 +1,149 @@
+<link rel="stylesheet" href="/css/user/mypage.css" th:href="@{/css/user/mypage.css}">
+<link rel="stylesheet" href="/css/sideBar.css" th:href="@{/css/sideBar.css}">
+
+<th:block th:replace="~{include/include :: def(~{::section})}">
+
+
+    <section id="wrap">
+        <th:block th:replace="~{include/side :: def(~{::#wrap})}"/>
+
+        <!-- 상단단 -->
+        <div class="section_right">
+            <h1>[[${user.nickname}]]님 안녕하세요</h1>
+            <div class="profile-section">
+                <div class="profile-left">
+                    <img class="profile-img" th:src="${user.imgUrl}" alt="">
+                </div>
+<!--                <div class="profile-info">-->
+<!--                    <div class="level">LV.5 고목나무</div>-->
+<!--                    <div class="tree-icon">🌳</div>-->
+<!--                    <div>매너등급</div>-->
+<!--                    <div class="manners-bar">-->
+<!--                        <div class="progress"></div>-->
+<!--                    </div>-->
+<!--                    <div class="manners-labels">-->
+<!--                        <span>LV.5</span>-->
+<!--                        <span>LV.6</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="stat-item">
+                    <div class="label">구매수</div>
+                    <div class="value">[[${buycount}]]</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">판매수</div>
+                    <div class="value">[[${sellcount}]]</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">리뷰</div>
+                    <div class="value">[[${review}]]</div>
+                </div>
+            </div>
+
+            <!-- 중간 -->
+            <div>
+                <h2>최근 주문 상품</h2>
+                <div style="display: flex; gap: 20px;">
+                    <div th:each="list : ${orderprod}">
+                        <a th:href="'/prod/prodDetail?prodId='+${list.prodId}" class="latest-order">
+                            <div class="latest-order">
+                                <div class="media-container">
+                                    <img th:src="${list.img1}" alt="" class="main-img">
+                                    <!-- 비디오 요소 추가 (기본적으로 숨김) -->
+                                    <video class="prod-video" th:if="${list.videoUrl != null}"
+                                           th:data-src="${list.videoUrl}" muted preload="none"></video>
+                                </div>
+                                <div class="title">[[${list.title}]]</div>
+                                <h4>[[${#numbers.formatInteger(list.price, 0, 'COMMA')}]]원</h4>
+                                <div class="address">[[${list.pickupAddress != null ? (
+                                    #strings.contains(list.pickupAddress, '특별자치') ?
+                                    #strings.substring(#strings.substringAfter(list.pickupAddress, '/'), 0, 11) :
+                                    #strings.substring(#strings.substringAfter(list.pickupAddress, '/'), 0, 6)
+                                    ) : ''}]]
+                                    [[${#temporals.format(list.regDate, 'yy년MM월dd일')}]] 등록
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <a href="/prod/orderList" class="next-btn">
+                        <img src="/img/user/Vector.png" alt="" style="width: 50px; height: 50px;">
+                    </a>
+                </div>
+            </div>
+
+            <!-- 하단 -->
+            <div style="margin: 100px 0 100px 0;">
+                <h2>최근 판매 상품</h2>
+                <div style="display: flex; gap: 20px;">
+                    <div th:each="list : ${sellprod}">
+                        <a th:href="'/prod/prodDetail?prodId='+${list.prodId}" class="latest-order">
+                            <div class="latest-order">
+                                <div class="media-container">
+                                    <img th:src="${list.img1}" alt="" class="main-img">
+                                    <!-- 비디오 요소 추가 (기본적으로 숨김) -->
+                                    <video class="prod-video" th:if="${list.videoUrl != null}"
+                                           th:data-src="${list.videoUrl}" muted preload="none"></video>
+                                </div>
+                                <div class="title">[[${list.title}]]</div>
+                                <h4>[[${#numbers.formatInteger(list.price, 0, 'COMMA')}]]원</h4>
+                                <div class="address">
+                                    <!--주소 쪼개서 보여주기-->
+                                    [[${list.pickupAddress != null ? (
+                                    #strings.contains(list.pickupAddress, '특별자치') ?
+                                    #strings.substring(#strings.substringAfter(list.pickupAddress, '/'), 0, 11) :
+                                    #strings.substring(#strings.substringAfter(list.pickupAddress, '/'), 0, 6)
+                                    ) : ''}]]
+                                    [[${#temporals.format(list.regDate, 'yy년MM월dd일')}]] 등록
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <a href="/prod/myProdList" class="next-btn">
+                        <img src="/img/user/Vector.png" alt="" style="width: 50px; height: 50px;">
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</th:block>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 모든 미디어 컨테이너에 마우스 이벤트 리스너 추가
+        const mediaContainers = document.querySelectorAll('.media-container');
+
+        mediaContainers.forEach(container => {
+            const video = container.querySelector('.prod-video');
+            const image = container.querySelector('.main-img');
+
+            if (video) {
+                // 마우스가 컨테이너 위로 올라갈 때
+                container.addEventListener('mouseenter', () => {
+                    const videoSrc = video.getAttribute('data-src');
+                    if (videoSrc) {
+                        video.src = videoSrc;
+                        video.style.display = 'block';
+                        image.style.display = 'none';
+                        video.play();
+                    }
+                });
+
+                // 마우스가 컨테이너에서 벗어날 때
+                container.addEventListener('mouseleave', () => {
+                    video.pause();
+                    video.style.display = 'none';
+                    image.style.display = 'block';
+                    video.removeAttribute('src'); // 메모리 관리를 위해 소스 제거
+                    video.load();
+                });
+            }
+        });
+    });
+</script>
+<script th:if="${msg}" th:inline="javascript">
+  var messageText = "${msg}" // msg 값을 JS 변수에 먼저 저장
+  alert(messageText);          // 저장된 변수를 alert 에 사용
+</script>
+<script src="../js/sideBar.js" th:src="@{/js/sideBar.js}"></script>

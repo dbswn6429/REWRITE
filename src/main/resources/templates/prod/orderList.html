@@ -1,0 +1,76 @@
+<link rel="stylesheet" href="/css/prod/orderList.css">
+<!--    <link rel="stylesheet" href="/css/prod/orderList.css" th:href="@{/css/prod/orderList.css}">-->
+<link rel="stylesheet" href="/css/sideBar.css" th:href="@{/css/sideBar.css}">
+
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+    <section id="wrap" class="section">
+        <th:block th:replace="~{include/side :: def(~{::#wrap})}"/>
+        <div id="sidebar"></div>
+        <div class="box">
+            <div style="margin: 0 0 20px 20px">
+                <h2>주문 내역</h2>
+            </div>
+            <th:block th:if="${summaries == null || summaries.isEmpty()}">
+                <div class="no-orders">
+                    <p>주문 내역이 없습니다.</p>
+                </div>
+            </th:block>
+            <div th:each="summaries : ${summaries}">
+                <div class="card">
+                    <div class="left">
+                        <div class="img_box">
+                            <img th:src="@{${summaries.value[0].img1}}" alt="제품사진">
+                        </div>
+                        <div class="left_box">
+                            <div class="first">
+                                <h6>주문번호: [[${summaries.key}]]</h6>
+                                <strong>제품명 : </strong>
+                                <strong>
+                                    [[${#strings.abbreviate(summaries.value[0].title, 12)}]]
+                                    <span th:if="${#lists.size(summaries.value) > 1}">
+                                        외 [[${#lists.size(summaries.value) - 1}]]개
+                                    </span>
+                                </strong>
+                            </div>
+                            <div class="second">
+                                <span>총 가격 : </span>
+                                <span>[[${#numbers.formatInteger(summaries.value[0].finalPrice, 3, 'COMMA')}]]원</span>
+                            </div>
+                            <div class="third">
+                                <span>판매자 : </span>
+                                <span>
+                                    [[${summaries.value[0].sellerNickname}]]
+                                <span th:if="${#lists.size(summaries.value) > 1}">
+                                        외 [[${#lists.size(summaries.value) - 1}]]명
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="icon_box">
+                            <a th:href="@{/prod/orderDetail/{oid}(oid=${summaries.key})}">
+                                <img src="/img/user/Vector.png" alt="상세보기">
+                            </a>
+                        </div>
+                        <div class="right_box">
+                            <div class="first">
+                                <p>주문일자</p>
+                                <p>[[${#temporals.format(summaries.value[0].orderedAt, 'yy년 MM월 dd일')}]]</p>
+                                <!-- 나중에 주문일도 바인딩 가능 -->
+                            </div>
+                            <div class="second">
+                                <strong>[[${summaries.value[0].orderStatus}]]</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="top" onclick="scrollToTop()">TOP</button>
+
+
+    </section>
+</th:block>
+<script src="/js/orderList.js" th:src="@{/js/orderList.js}"></script>
+<script src="/js/prod/scrollToTop.js" th:src="@{/js/prod/scrollToTop.js}"></script>

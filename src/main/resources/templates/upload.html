@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>이미지 업로드</title>
+    <link rel="stylesheet" href="/css/upload.css">
+</head>
+<body>
+<h1>이미지 업로드</h1>
+
+<div class="upload-form">
+    <div class="form-group">
+        <label for="file">프로필 이미지 선택</label>
+        <input type="file" id="file" accept="image/*" required>
+    </div>
+    <button onclick="uploadImage()">업로드</button>
+
+    <div id="result">
+        <h3>업로드 결과</h3>
+        <p><strong>이미지 URL:</strong> <span id="imageUrl"></span></p>
+        <div>
+            <h4>이미지 미리보기</h4>
+            <img id="imagePreview" src="" alt="업로드된 이미지">
+        </div>
+    </div>
+</div>
+
+<script src="/js/upload.js"></script>
+
+
+</body>
+</html>

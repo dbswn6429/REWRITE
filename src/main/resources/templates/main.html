@@ -1,0 +1,61 @@
+<th:block th:replace="~{include/include :: def(~{::#wrap})} ">
+    <section id="wrap" class="section_main">
+        <div class="con_box">
+            <div class="txt_slide">
+                <div class="ts_top">
+                    <div>REWRITE에서 [</div>
+                </div>
+                <div id="ts_mid">
+                    <div>의류</div>
+                    <div>게임</div>
+                    <div>가전제품</div>
+                    <div>전자기기</div>
+                </div>
+                <div class="ts_bottom">
+                    <div>] 찾고 계신가요?</div>
+                </div>
+            </div>
+        </div>
+        <nav class="main_nav">
+            <form action="/search" method="get">
+                <div class="search_head">
+                    <!-- <img src="img/search_icon.png" alt="search_arrow"> -->
+                </div>
+                <div class="search_sec">
+                    <input type="text" name= "keyword" placeholder="검색어를 입력하세요.">
+                </div>
+                <div class="search_foot">
+                    <img src="img/search_icon.png" alt="search_arrow">
+                </div>
+            </form>
+        </nav>
+
+        <div class="banner_title">
+            <h2> 지금 올라오고 있는 상품이에요~!</h2>
+        </div>
+
+        <div class="flow_banner">
+            <div class="list">
+                <div th:each="product : ${products}" class="card" th:data-prod-id="${product.prodId}">
+                    <div class="media-container">
+                        <img class="prod-image" th:src="${product.img1}" alt="상품 이미지">
+                        <div class="hover-text">상세 보기</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name" th:text="${product.title}">상품명</h3>
+                        <p class="price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '원'">가격</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="banner_footer">
+            <div>
+                <a href="#" th:href="@{/prod/prodList}"><span class="banner_span">전체 상품 보러가기<img src="/img/right_arrow.png" alt="right_arrow"></span></a>
+
+            </div>
+        </div>
+
+    </section>
+</th:block>
+<script src="/js/prod/search.js" th:src="@{/js/prod/search.js}"></script>

@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="/css/qna/qnaDetail.css" th:href="@{/css/qna/qnaDetail.css}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+    <section class="section" id="wrap">
+        <div class="container notice-detail-container">
+            <div class="page-title">
+                <h2 class="title_left">1:1 문의 상세</h2>
+                <button type="button" class="title_right" onclick="openModal()">답변하기</button>
+            </div>
+
+            <div class="detail-section">
+                <div class="detail-label">제목</div>
+                <div class="detail-content subject-content" th:text="${qna.title}">제목 예시</div>
+            </div>
+
+            <div class="detail-section">
+                <div class="detail-label">문의내용</div>
+                <div class="detail-content main-content">
+                    <p th:text="${qna.content}"></p>
+                </div>
+            </div>
+
+            <div class="detail-section" th:if="${qna.answer != null}">
+                <div class="detail-label">답변</div>
+                <div class="detail-content main-content">
+                    <p th:text="${qna.answer}"></p>
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <div class="detail-label">첨부파일</div>
+                <div class="detail-content sub-content">
+                    <p th:text="${qna.fileAttachment}"></p>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <a href="/admin/qnaList" th:href="@{/admin/qnaList}" class="list-button">목록으로</a>
+            </div>
+        </div>
+    </section>
+    </body>
+</th:block>
+<script src="../../js/prod/QnaDetail.js" th:src="@{/js/prod/QnaDetail.js}"></script>

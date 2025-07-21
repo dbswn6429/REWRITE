@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="/css/review/reviewDetail.css" th:href="@{/css/review/reviewDetail.css}"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+  <section class="section" id="wrap">
+    <div class="container inquiry-form-container"> <!-- 컨테이너 클래스 변경 -->
+      <!-- 로고는 필요 시 여기에 추가 -->
+      <!-- <img src="/img/rewrite_logo.png" alt="REWRITE 로고" class="logo-image"> -->
+
+      <form id="inquiryForm" class="inquiry-form">
+        <h2 class="page-title">리뷰상세</h2>
+
+        <div class="form-group">
+          <label for="inquirySubject">상품명</label>
+          <div class="input-wrapper" id="inquirySubject"  th:text="${review.title}" >
+          </div>
+        </div>
+        <div class="form-group form-group-textarea">
+          <label for="inquiryContent">내용</label>
+          <div class="input-wrapper">
+            <textarea id="inquiryContent" name="content" rows="8" th:text="${review.content}" readonly required></textarea>
+          </div>
+        </div>
+
+        <button type="button" id="submitBtn" class="submit-button" th:onclick="|location.href='@{/review/reviewList}'|">리뷰 목록으로</button>
+      </form>
+
+
+      </form>
+    </div>
+  </section>
+
+
+  </body>
+
+</th:block>

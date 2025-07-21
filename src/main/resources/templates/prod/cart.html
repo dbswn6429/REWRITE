@@ -1,0 +1,61 @@
+<link rel="stylesheet" href="/css/prod/cart.css">
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+<section id="wrap">
+<div class="cart-container">
+  <!-- 페이지 헤더: 제목 + 진행 단계 -->
+  <div class="cart-header">
+    <h1>장바구니</h1>
+    <nav aria-label="주문 진행 단계">
+      <ol class="checkout-progress">
+        <!-- 현재 단계에 current-step 클래스 추가 -->
+        <li class="current-step" aria-current="step">01 장바구니</li>
+        <li>02 주문/결제</li>
+        <li>03 주문완료</li>
+      </ol>
+    </nav>
+  </div>
+
+  <!-- 상단 컨트롤: 전체선택, 선택삭제 -->
+  <div class="cart-controls">
+    <div class="select-all-container">
+      <input type="checkbox" id="select-all">
+      <label for="select-all">전체 선택</label>
+    </div>
+    <button class="delete-selected-button">삭제</button>
+  </div>
+
+  <!-- 장바구니 상품 목록 -->
+  <div class="cart-items">
+    <!-- 장바구니가 비어있을 경우 -->
+    <div th:if="${#lists.isEmpty(cartList)}" class="empty-cart">
+      장바구니가 비어있습니다.
+    </div>
+    <!-- 상품 1 -->
+    <div class="cart-item" th:each="cart, list : ${cartList}" th:data-cart-id="${cart.cartId}">
+      <div class="item-selection">
+        <input type="checkbox" th:id="'item' + ${list.index}" class="item-checkbox">
+        <label th:for="'item' + ${list.index}" class="visually-hidden">선택</label> <!-- 스크린리더용 레이블 -->
+      </div>
+      <img th:src="${cart.product.img1}" alt="상품" class="item-thumbnail">
+      <div class="item-details">
+        <h3 class="item-name">[[${cart.product.title}]]</h3>
+        <span class="item-seller">판매자명:[[${cart.product.user.nickname}]]</span>
+        <span class="item-category">[[${cart.product.categoryMin}]]</span>
+      </div>
+      <div class="item-price">[[${cart.product.price}]]원</div>
+      <button class="item-delete-button" th:data-cart-id="${cart.cartId}">삭제</button>
+    </div>
+
+    <!-- 여기에 더 많은 상품 .cart-item 을 추가할 수 있습니다. -->
+  </div>
+
+  <!-- 하단 주문 버튼 -->
+  <div class="cart-summary">
+    <button class="order-button" onclick="orderButton">0원 주문하기</button>
+  </div>
+
+</div>
+  <script th:src="@{/js/prod/cart.js}"></script>
+</section>
+
+</th:block>

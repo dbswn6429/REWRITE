@@ -1,0 +1,126 @@
+<link rel="stylesheet" href="/css/address/addressWrite.css">
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+
+    <section id = "wrap" class="section">
+    <div class="address-container">
+        <h2>주소지</h2>
+        <p class="description">서비스 이용을 위해 주소지 정보를 입력해 주세요!</p>
+
+        <form action="write" method="post">
+        <label>주소지명</label><br>
+
+        <input type="text" id="aa" name="addressAlias" th:value="${entity != null} ? ${entity.addressAlias}: ''" placeholder="예: 집" required><br>
+
+        <label>이름</label><br>
+        <input type="text" id="ca" name="createdAt" th:value="${entity != null} ? ${entity.createdAt} : ''" placeholder="예: 안종수" required><br>
+
+        <label>주소지 정보</label><br>
+            <input type="text"  name="postcode" id="sample6_postcode" placeholder="우편번호" th:value="${postCode}" readonly >
+        <div class="address-search">
+<!--            <button type="button">주소검색</button>-->
+            <input type="text"  name = "addr" id="sample6_address" placeholder="주소" th:value="${addr}" required readonly ><br>
+
+            <button type="button" onclick="address()" style="height: 30px; margin-top: 30px " >주소검색</button><br>
+
+            </div>
+        <input type="text" id = "sample6_detailAddress" name="detailAddress" placeholder="상세주소" th:value="${detailAddress}" required><br>
+
+        <label>전화번호</label><br>
+        <div class="phone-select">
+            <select name="phone1">
+            <option value="010">010</option>
+            <option value="011">011</option>
+            </select>
+
+            <input type="text" name="phone2" maxlength="4" th:value="${phone2}">
+            <span>-</span>
+            <input type="text" name="phone3" maxlength="4" th:value="${phone3}">
+        </div>
+        <div class="button-group">
+            <button class="btn-reg" type="submit">등록</button>
+        </div>
+        </form>
+    </div>
+    </section>
+</th:block>
+        <!-- 주소 검색 API-->
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script>
+            function address() {
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        var addr = ''; // 주소 변수
+                        var extraAddr = ''; // 참고항목 변수
+
+                        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                            addr = data.roadAddress;
+                        } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                            addr = data.jibunAddress;
+                        }
+
+                        // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                        if(data.userSelectedType === 'R'){
+                            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                                extraAddr += data.bname;
+                            }
+                            // 건물명이 있고, 공동주택일 경우 추가한다.
+                            if(data.buildingName !== '' && data.apartment === 'Y'){
+                                extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                            }
+
+
+                        } else {
+                            document.getElementById("sample6_extraAddress").value = '';
+                        }
+
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        document.getElementById('sample6_postcode').value = data.zonecode;
+
+                        document.getElementById("sample6_address").value = addr;
+                        // 커서를 상세주소 필드로 이동한다.
+                        document.getElementById("sample6_detailAddress").focus();
+                    }
+                }).open();
+            }
+        </script>
+
+        <!-- edit으로 들어올 시 활성-->
+        <script th:inline="javascript" th:if="${entity != null}">
+            var phone1 = [[${phone1}]];
+            var select = document.querySelector('select[name="phone1"]');
+
+            //휴대폰번호 앞자리 비교
+            Array.from(select.options).forEach(function (option) {
+                if (option.value === phone1) {
+                    option.selected = true;
+                }
+            });
+
+            $(document).ready(function() {
+                var addressId = [[${entity.addressId}]] ;
+
+                //수정 버튼으로 변경
+                $('.btn-reg').text('수정');
+
+
+                //수정 버튼 클릭시 작동
+                $('.btn-reg').click(function() {
+                    var form = $(this).closest('form');
+                    var input = $('<input>').attr({
+                        type: 'hidden',
+                        name: 'addressId',
+                        value: addressId
+                    });
+                    form.append(input);
+                    form.attr('action', '/address/modify');
+                    form.submit();
+                });
+            });
+        </script>

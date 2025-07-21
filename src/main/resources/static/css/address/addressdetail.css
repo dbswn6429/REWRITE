@@ -1,0 +1,88 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff;
+  }
+
+  section {
+    margin: 0 auto;
+    margin-top: 77px;
+    width: 1250px;
+    min-height: 950px;
+    position: relative;
+  }
+
+  .address-list{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* min-height: 500px; */
+  }
+
+  h2 {
+    font-size: 25px;
+    margin: 0 0 10px 305px;
+  }
+
+  .subtitle {
+    color: #555;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .address-box {
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 600px;
+    margin: 0 auto;
+  }
+
+  .address-info {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .address-info .default {
+    color: #007aff;
+    font-weight: bold;
+    margin-left: 8px;
+  }
+
+  .delete{
+    position: absolute;
+    bottom: -60px;
+    right: 12px;
+    font-size: 13px;
+    text-decoration: none;
+    color: red;
+  }
+
+  .btn {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .btn-edit {
+    background-color: #fff;
+    border: 1px solid #ccc;
+  }
+
+  .btn-select {
+    background-color: #fff;
+    border: 1px solid #ccc;
+  }
+  .btn-select:hover {
+    background-color: black;
+    color: #fff;
+  }
+  
+  .btn-add{
+    margin-right: 180px;
+    margin-top: 20px;
+  }

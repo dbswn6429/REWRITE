@@ -1,0 +1,124 @@
+<!-- 파일: templates/user/pwFind.html -->
+<!DOCTYPE html>
+<!--
+    1. th:replace: 이 파일 전체를 'include/include' 파일의 'def' 프래그먼트로 교체합니다.
+    2. 파라미터 전달: ~{::.pwfind-wrapper} 를 사용하여 아래 정의된 section 전체를 item 파라미터로 전달합니다.
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{include/include :: def(~{::.pwfind-wrapper})}">
+
+<!--
+    이 pwfind-wrapper 클래스를 가진 section 전체가 레이아웃의 item 파라미터로 전달됩니다.
+    따라서 페이지별 스타일과 스크립트는 이 section 내부에 포함되어야 합니다.
+-->
+<section class="pwfind-wrapper"> <!-- 전체 콘텐츠를 감싸는 요소 -->
+
+    <!-- 페이지별 스타일 시트 링크 (콘텐츠 내부에 위치) -->
+    <link rel="stylesheet" th:href="@{/css/user/pwFind.css}">
+    <!-- 공통 CSS는 레이아웃 파일에 이미 포함되어 있으므로 여기서는 제거해도 됩니다. -->
+    <!-- <link rel="stylesheet" href="../css/common.css"> -->
+
+    <!-- 실제 비밀번호 찾기 페이지 콘텐츠 -->
+    <!-- section 대신 div를 사용하거나 클래스명을 다르게 하는 것을 고려 -->
+    <div class="section"> <!-- 최상위 section과 구분하기 위해 div 또는 다른 클래스 사용 권장 -->
+        <div class="box">
+            <div class="title_box">
+                <h3>비밀번호 찾기</h3>
+            </div>
+
+            <!-- form의 action 경로를 실제 처리 URL로 수정 필요 -->
+            <form action="#" id="findPwForm">
+
+                <div class="id_box box2">
+                    <p>아이디</p>
+                    <input type="text" name="id" placeholder="아이디를 입력해주세요" required> <!-- required 추가 고려 -->
+                </div>
+
+                <div class="name_box box2">
+                    <p>이름</p>
+                    <input type="text" name="name" placeholder="이름을 입력해주세요" required> <!-- required 추가 고려 -->
+                </div>
+
+                <div class="phone_box box2">
+                    <p>전화번호</p>
+                    <input type="text" name="phone" placeholder="010-1234-5678" required> <!-- required 추가 고려 -->
+                </div>
+
+                <!-- 클래스명 email_box 로 변경 고려 -->
+                <div class="email_box box2"> <!-- 클래스명 변경 -->
+                    <p>이메일</p>
+                    <input type="email" name="email" placeholder="이메일을 입력해주세요" required> <!-- type="email", required 추가 고려 -->
+                </div>
+
+                <!-- 버튼 타입 명시 (submit 또는 button) -->
+                <button type="submit">찾기</button>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- 페이지별 스크립트 (콘텐츠 내부에 위치) -->
+    <!-- 경로 수정: ../js -> /js, th:src 사용 -->
+    <script th:src="@{/js/pwFind.js}"></script>
+    <!-- pwFind.js 에서는 위 form의 id ('findPwForm') 를 사용하여 이벤트 처리 필요 -->
+
+</section> <!-- /.pwfind-wrapper -->
+
+</html> <!-- 이 태그는 th:replace 때문에 실제로는 렌더링되지 않음 -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const pwFindForm = document.getElementById('findPwForm');
+        pwFindForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const id = document.querySelector('[name=id]').value;
+            const email = document.querySelector('[name=email]').value;
+            const phone = document.querySelector('[name=phone]').value;
+            const name = document.querySelector('[name=name]').value;
+
+            // 이메일 형식 검사
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('유효한 이메일 주소를 입력해주세요.');
+                return;
+            }
+
+            // 전화번호 형식 검사 (010-1234-5678 형식)
+            const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+            if (!phoneRegex.test(phone)) {
+                alert('전화번호 형식이 올바르지 않습니다. 010-1234-5678 형식으로 입력해주세요.');
+                return;
+            }
+
+            const requestData = {
+                id: id,
+                email: email,
+                phone: phone,
+                name: name,
+            }
+
+            try {const response = await fetch('/api/auth/reset-pw', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData)
+            })
+                if (response.ok) {
+                    const success = await response.json();
+                    console.log('비밀번호 리셋 성공', success);
+                    alert("비밀번호가 재설정되었습니다. 메일함, 혹은 스팸메일함을 확인해주세요.")
+                    window.location.href = '/'
+
+                }else {
+                    const error = await response.json();
+                    alert(error.message);
+                }
+
+            }catch (error) {
+                console.log(error);
+                alert('에러가 발생했습니다. 문의바랍니다', error.message);
+            }
+        })
+    })
+</script>

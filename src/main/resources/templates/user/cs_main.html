@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="/css/user/cs_main.css" th:href="@{/css/user/cs_main.css}" />
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+  <section class="section" id="wrap">
+    <div class="support">
+      <div class="sup_title">
+        <h1 id="fade1">ReWrite고객센터입니다</h1>
+        <h1 id="fade2"> 무엇을 도와드릴까요?</h1>
+      </div>
+      <div id="fade3" class="tabs">
+        <button class="tab" type="button" th:onclick="'location.href=\'' + @{/user/faq} + '\''">FAQ</button>
+        <button class="tab mid_btn" type="button" th:onclick="'location.href=\'' + @{/qna/qnaList} + '\''">1:1문의</button>
+        <button class="tab" type="button" th:onclick="'location.href=\'' + @{/notice/noticeList} + '\''">공지사항</button>
+      </div>
+    </div>
+  </section>
+</body>
+</th:block>
+<script src="js/cs_main.js" th:src="@{/js/cs_main.js}"></script>

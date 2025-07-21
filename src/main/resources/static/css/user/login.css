@@ -1,0 +1,66 @@
+* {
+    font-family: "Arial", sans-serif;
+    list-style: none;
+}
+
+.section{
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    height: 51vh;
+}
+
+  
+.login-container {
+    width: 300px;
+}
+  
+  h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  form input[type="text"],
+  form input[type="password"] {
+    width: 93%;
+    padding: 10px;
+    margin: 8px 0;
+    border: none;
+    border-bottom: 1px solid #D9D9D9;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+
+  .save-id {
+    text-align: left;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  
+  .links {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  
+  .links a {
+    margin:15px;
+    text-decoration: none;
+    color: #000;
+    
+  }
+  

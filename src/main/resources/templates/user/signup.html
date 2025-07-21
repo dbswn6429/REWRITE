@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입 - REWRITE</title>
+  <link rel="stylesheet" href="/css/user/signup.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <form id="signupForm" class="signup-form" novalidate> <!-- 브라우저 기본 유효성 검사 비활성화 -->
+    <img src="/img/rewrite_logo.png" alt="REWRITE 로고" class="logo-image">
+
+    <h2 class="page-title">회원가입</h2>
+
+    <div class="input-group">
+      <label for="id">아이디</label>
+      <!-- placeholder 속성으로 가이드라인 추가 -->
+      <input type="text" id="id" name="id" placeholder="아이디 (4자 이상)" required>
+      <!-- 아이디 에러 메시지 표시 영역 (기존 유지) -->
+      <span class="error-message" id="id-error"></span>
+    </div>
+
+    <div class="input-group">
+      <label for="pw">비밀번호</label>
+      <!-- placeholder 속성으로 가이드라인 추가 -->
+      <input type="password" id="pw" name="pw" placeholder="비밀번호 (8자 이상)" required>
+      <!-- 비밀번호 에러 메시지 표시 영역 (기존 유지) -->
+      <span class="error-message" id="pw-error"></span>
+    </div>
+
+    <div class="input-group">
+      <label for="pwConfirm">비밀번호 재입력</label>
+      <input type="password" id="pwConfirm" name="pwConfirm" required>
+      <!-- 비밀번호 확인 에러 메시지 표시 영역 (기존 유지) -->
+      <span class="error-message" id="pwConfirm-error"></span>
+    </div>
+
+    <div class="input-group">
+      <label for="name">이름</label>
+      <input type="text" id="name" name="name" required>
+      <span class="error-message" id="name-error"></span>
+    </div>
+
+    <div class="input-group">
+      <label for="nickname">닉네임</label>
+      <input type="text" id="nickname" name="nickname" required>
+      <span class="error-message" id="nickname-error"></span>
+    </div>
+
+    <div class="input-group">
+      <label for="email">이메일</label>
+      <input type="email" id="email" name="email" required>
+      <span class="error-message" id="email-error"></span>
+    </div>
+
+    <div class="input-group">
+      <label for="birth">생년월일</label>
+      <input type="date" id="birth" name="birth" required>
+      <span class="error-message" id="birth-error"></span>
+    </div>
+
+    <div class="input-group">
+      <label for="phone">휴대폰번호</label>
+      <input type="tel" id="phone" name="phone" placeholder="예) 010-1234-5678" required>
+      <span class="error-message" id="phone-error"></span>
+    </div>
+
+    <button type="submit" class="submit-button">가입하기</button>
+  </form>
+</div>
+
+<script>
+  // JavaScript 코드는 이전과 동일하게 유지 (에러 메시지 처리 로직)
+  const signupForm = document.getElementById('signupForm');
+  const idInput = document.getElementById('id');
+  const pwInput = document.getElementById('pw');
+  const pwConfirmInput = document.getElementById('pwConfirm');
+  const nameInput = document.getElementById('name');
+  const nicknameInput = document.getElementById('nickname');
+  const emailInput = document.getElementById('email');
+  const birthInput = document.getElementById('birth');
+  const phoneInput = document.getElementById('phone');
+
+  const idErrorSpan = document.getElementById('id-error');
+  const pwErrorSpan = document.getElementById('pw-error');
+  const pwConfirmErrorSpan = document.getElementById('pwConfirm-error');
+  const nameErrorSpan = document.getElementById('name-error');
+  const nicknameErrorSpan = document.getElementById('nickname-error');
+  const emailErrorSpan = document.getElementById('email-error');
+  const birthErrorSpan = document.getElementById('birth-error');
+  const phoneErrorSpan = document.getElementById('phone-error');
+
+  function clearErrors() {
+    idErrorSpan.textContent = '';
+    pwErrorSpan.textContent = '';
+    pwConfirmErrorSpan.textContent = '';
+    nameErrorSpan.textContent = '';
+    nicknameErrorSpan.textContent = '';
+    emailErrorSpan.textContent = '';
+    birthErrorSpan.textContent = '';
+    phoneErrorSpan.textContent = '';
+  }
+
+  signupForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    clearErrors();
+
+    let isValid = true;
+
+    const idValue = idInput.value.trim();
+    const password = pwInput.value;
+    const pwConfirm = pwConfirmInput.value;
+    const nameValue = nameInput.value.trim();
+    const nicknameValue = nicknameInput.value.trim();
+    const emailValue = emailInput.value.trim();
+    const birthValue = birthInput.value;
+    const phoneValue = phoneInput.value.trim();
+
+    // --- 아이디 유효성 검사 ---
+    if (idValue === '') {
+      idErrorSpan.textContent = '아이디는 필수 입력 값입니다.';
+      isValid = false;
+    } else if (idValue.length < 4 || idValue.length > 50) {
+      idErrorSpan.textContent = '아이디는 4자 이상 50자 이하로 입력해주세요.';
+      isValid = false;
+    }
+
+    // --- 비밀번호 유효성 검사 ---
+    if (password === '') {
+      pwErrorSpan.textContent = '비밀번호는 필수 입력 값입니다.';
+      isValid = false;
+    } else if (password.length < 8) {
+      pwErrorSpan.textContent = '비밀번호는 8자 이상이어야 합니다.';
+      isValid = false;
+    }
+
+    // --- 비밀번호 확인 검사 ---
+    if (pwConfirm === '') {
+      pwConfirmErrorSpan.textContent = '비밀번호 확인은 필수 입력 값입니다.';
+      isValid = false;
+    } else if (password !== pwConfirm) {
+      pwConfirmErrorSpan.textContent = '비밀번호가 일치하지 않습니다.';
+      isValid = false;
+    }
+
+    // --- 이름 유효성 검사 ---
+    if (nameValue === '') {
+      nameErrorSpan.textContent = '이름은 필수 입력 값입니다.';
+      isValid = false;
+    } else if (nameValue.length > 20) {
+      nameErrorSpan.textContent = '이름은 20자 이하로 입력해주세요.';
+      isValid = false;
+    }
+
+    // --- 닉네임 유효성 검사 ---
+    if (nicknameValue === '') {
+      nicknameErrorSpan.textContent = '닉네임은 필수 입력 값입니다.';
+      isValid = false;
+    } else if (nicknameValue.length > 30) {
+      nicknameErrorSpan.textContent = '닉네임은 30자 이하로 입력해주세요.';
+      isValid = false;
+    }
+
+    // --- 이메일 유효성 검사 ---
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailValue === '') {
+      emailErrorSpan.textContent = '이메일은 필수 입력 값입니다.';
+      isValid = false;
+    } else if (!emailRegex.test(emailValue)) {
+      emailErrorSpan.textContent = '유효한 이메일 형식이 아닙니다.';
+      isValid = false;
+    } else if (emailValue.length > 100) {
+      emailErrorSpan.textContent = '이메일은 100자 이하로 입력해주세요.';
+      isValid = false;
+    }
+
+    // --- 생년월일 유효성 검사 ---
+    if (birthValue === '') {
+      birthErrorSpan.textContent = '생년월일은 필수 입력 값입니다.';
+      isValid = false;
+    }
+
+    // --- 휴대폰 번호 유효성 검사 ---
+    const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/; // 휴대폰 번호 형식 정규식 (000-000(0)-0000)
+    if (phoneValue === '') {
+      phoneErrorSpan.textContent = '휴대폰 번호는 필수 입력 값입니다.';
+      isValid = false;
+    } else if (!phoneRegex.test(phoneValue)) { // 정규식 검사 추가
+      phoneErrorSpan.textContent = '휴대폰 번호 형식이 올바르지 않습니다. (예: 010-1234-5678)';
+      isValid = false;
+    } else if (phoneValue.length > 25) { // 길이 검사는 정규식 통과 후에도 유지 (혹시 모를 경우 대비)
+      phoneErrorSpan.textContent = '휴대폰 번호는 25자 이하로 입력해주세요.';
+      isValid = false;
+    }
+
+    if (!isValid) {
+      return;
+    }
+
+    // --- 서버 전송 로직 (기존과 동일) ---
+    const formData = new FormData(signupForm);
+    const signUpData = {};
+    formData.forEach((value, key) => {
+      if (key !== 'pwConfirm') {
+        signUpData[key] = value;
+      }
+    });
+
+    try {
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        body: JSON.stringify(signUpData),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+
+      const responseData = await response.json();
+
+      if (response.ok) {
+        alert(responseData.message || '회원가입 성공!');
+        window.location.href = '/';
+      } else {
+        alert(responseData.message || '회원가입 처리 중 오류가 발생했습니다.');
+      }
+    } catch (error) {
+      console.error('회원가입 요청 중 오류 발생:', error);
+      alert('회원가입 요청 중 오류가 발생했습니다. 네트워크 연결을 확인하거나 잠시 후 다시 시도해주세요.');
+    }
+  });
+</script>
+
+</body>
+</html>

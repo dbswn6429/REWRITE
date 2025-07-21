@@ -1,0 +1,25 @@
+<th:block th:fragment="def (item)">
+    <div id="pop" style="display: none" onclick="openModal()">
+        <div id="pop_box">
+            <div class="pop_content">
+                <div class="answer-header">
+                    <h3>문의답변</h3>
+                    <div id="close"><img src="../img/close_icon.png" th:src="@{/img/close_icon.png}" alt="close_img"
+                                         onclick="closeModal()"></div>
+                </div>
+                <div class="answer-section">
+                    <form th:action="@{/admin/saveAnswer}" method="post">
+
+                        <input type="hidden" name="qnaId" th:value="${qna?.qnaId}"/>
+                        <div class="form-group">
+                            <textarea class="form-control" name="answer" rows="5"
+                                      th:text="${qna?.answer != 'n' ? qna?.answer : ''}"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">답변 저장</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</th:block>

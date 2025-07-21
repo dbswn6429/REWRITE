@@ -1,0 +1,130 @@
+*{
+    padding: 0;
+    margin: 0;
+
+}
+
+ul , li {
+    list-style: none;
+
+}
+
+a {
+    text-decoration: none;
+}
+
+
+
+section{
+    margin: 0 auto;
+    margin-top: 77px;
+    width: 1250px;
+    min-height: 950px;
+    position: relative;
+  }
+
+.box {
+    margin: 0 auto;
+    
+    width: 1000px;
+    
+    /*padding-top: 100px;*/
+    padding-left: 200px;
+    /*padding-right: 200px;*/
+
+}
+
+
+
+.card {
+    border: 1px #777 solid;
+    padding: 30px;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 80%;
+    margin-bottom: 50px;
+   
+}
+
+.left {
+    float: left;
+}
+
+.left .img_box {
+    float: left;
+}
+
+.left .left_box {
+    padding-left: 70px;
+    float: left;
+}
+
+.left_box .first {
+    font-size: 20px;
+}
+
+.left_box .first {
+    margin-top: 20px;
+}
+
+.left_box .second {
+   margin: 20px 0px;
+}
+
+.right {
+    float: right;
+    
+}
+
+.right .icon_box {
+    float: right;
+    padding: 50px;
+}
+
+.right .icon_box > a {
+    cursor: pointer;
+}
+
+.right .right_box {
+    float: right;
+    margin-top: 20px;
+}
+
+.right .right_box .second {
+    margin-top: 40px;
+    font-size: 20px;
+    color: red;
+    opacity: 0.65;
+}
+
+.img_box img {
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+}
+
+#sidebar {
+    position: absolute;
+    left: -250px;
+    top: 41px;
+    
+  }
+
+  .top {
+    width: 50px;
+    height: 40px;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 5px;
+    border: none;
+    position: fixed;
+    right: 150px;
+    bottom: 100px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+
+
+ 

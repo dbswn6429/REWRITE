@@ -1,0 +1,96 @@
+<link rel="stylesheet" href="/css/qnaList.css" th:href="@{/css/qna/qnaList.css}">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+    <section class="section" id="wrap">
+        <div class="container inquiry-list-container">
+            <!-- 필요 시 로고 이미지 추가 -->
+            <!-- <img src="/img/rewrite_logo.png" alt="REWRITE 로고" class="logo-image"> -->
+
+            <h2 class="page-title">문의내역</h2>
+
+            <div class="inquiry-table-container">
+                <table class="inquiry-table">
+                    <thead>
+                    <tr>
+                        <th class="col-id">문의번호</th>
+                        <th class="col-subject">문의내용</th>
+                        <th class="col-writer">작성자</th>
+                        <th class="col-type">문의유형</th>
+                        <th class="col-status">답변여부</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    <!-- 데이터가 없을 경우 -->
+                    <tr th:if="${qnaPage != null && #lists.isEmpty(qnaPage.content)}">
+                        <td colspan="5" class="no-data">문의 내역이 없습니다.</td>
+                    </tr>
+
+
+                    <!-- QnA 데이터 출력 -->
+                    <tr th:each="qna : ${qnaPage.content}">
+                        <td th:text="${qna.qnaId}">문의번호</td>
+                        <td class="subject-cell">
+                            <a th:href="@{/admin/qnaDetail(id=${qna.qnaId})}" th:text="${qna.title}">문의내용</a>
+                        </td>
+                        <td th:text="${qna.USERID}">작성자</td>
+                        <td th:text="${qna.category}">문의유형</td>
+                        <td th:text="${qna.answer_stat != 'n' ? '답변완료' : '답변대기'}">답변여부</td>
+                    </tr>
+                    <!--  -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- 페이지네이션 (정적 예시) -->
+            <nav class="pagination-container" aria-label="Page navigation">
+                <div class="pagination">
+                    <a th:href="${qnaPage.first} ? '#' : @{/admin/qnaList(page=${qnaPage.number - 1})}"
+                       class="page-link" th:classappend="${qnaPage.first} ? 'disabled'"> ← Prev </a>
+
+                    <th:block th:each="pageNumber : ${#numbers.sequence(startIdx, endIdx)}">
+                        <!-- 현재 페이지만 클릭 안되게 -->
+                        <span th:if="${pageNumber == qnaPage.number + 1}" class="page-link current-page"
+                              th:text="${pageNumber}"></span>
+                        <!-- 나머지는 클릭 되게 -->
+                        <a th:unless="${pageNumber == qnaPage.number + 1}"
+                           th:href="@{/admin/qnaList(page=${pageNumber - 1})}"
+                           class="page-link" th:text="${pageNumber}"></a>
+                    </th:block>
+
+                    <a th:href="${qnaPage != null && qnaPage.last} ? '#' : @{/admin/qnaList(page=${qnaPage != null ? qnaPage.number + 1 : 0})}"
+                       class="page-link" th:classappend="${qnaPage != null && qnaPage.last} ? 'disabled'">
+                        Next →
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </section>
+    <script>
+        //바디생성함수
+        function createBody(items) {
+            var tableBody = document.getElementById("tableBody");
+
+            if (items.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="no-data">문의 내역이 없습니다.</td></tr>';
+                return;
+            }
+
+            var str = "";
+            items.forEach(function(item) {
+                str += "<tr>";
+                str += "<td>" + item.qnaId + "</td>";
+                str += "<td class='subject-cell'><a href='/admin/qnaDetail?id=" + item.qnaId + "'>" + item.title + "</a></td>";
+                str += "<td>" + item.uid + "</td>";
+                str += "<td>" + item.category + "</td>";
+                str += "<td>" + (item.answer_stat ? "답변완료" : "답변대기") + "</td>";
+                str += "</tr>";
+            });
+            tableBody.innerHTML = str;
+        }
+
+
+    </script>
+    </body>
+
+</th:block>

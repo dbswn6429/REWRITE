@@ -1,0 +1,112 @@
+<link rel="stylesheet" href="/css/user/edit_profile.css" th:href="@{/css/user/edit_profile.css}"/>
+<th:block th:replace="~{include/include :: def(~{::#wrap})}">
+    <section id="wrap" class="section">
+        <div class="profile-container">
+            <h1>회원정보수정</h1>
+            <div class="img">
+                <img class="profileImg" th:src="${user.imgUrl != null ? user.imgUrl : '/img/profileImg.png'}" alt="회원정보수정이미지" />
+                <a href="javascript:void(0);" id="cameraIcon"><img class="profileImg" src="/img/camera.png" alt="회원정보수정이미지" /></a>
+            </div>
+            <p><a href="/address/detail" class="address-link">주소지 관리</a></p>
+
+            <form action="/user/modify" method="post">
+                <input type="file" id="file" accept="image/*" style="display: none;" />
+                <!-- 이미지 URL을 저장할 hidden 필드 추가 -->
+                <input type="hidden" id="imgUrl" name="imgUrl" />
+                <input type="text" name="nickname" th:value="${user.nickname}" placeholder="닉네임" /><br />
+                <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호" /><br />
+                <input type="password" name="password" placeholder="비밀번호 변경" /><br />
+                <input type="password" name="eqpassword" placeholder="비밀번호 재입력"  /><br/>
+                <div class="actions">
+                    <a href="#" class="withdraw">회원탈퇴</a>
+                </div>
+                <button type="submit">수정하기</button>
+            </form>
+
+
+<!--            &lt;!&ndash; 회원 탈퇴 처리를 위한 숨겨진 폼 &ndash;&gt;-->
+<!--            <form id="delete-form" action="/user/delete" method="post" style="display: none;"></form>-->
+        </div>
+        <div id="flash-message" th:if="${message}" th:text="${message}" style="display: none;"/>
+    </section>
+</th:block>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const flashMessage = document.getElementById("flash-message");
+        if (flashMessage && flashMessage.textContent.trim() !== "") {
+            alert(flashMessage.textContent); // 메시지를 알림으로 표시
+        }
+    });
+
+    // 카메라 아이콘 클릭 시 파일 선택 창 열기
+    const cameraIcon = document.getElementById("cameraIcon");
+    const fileInput = document.getElementById("file");
+
+    cameraIcon.addEventListener("click", function() {
+        fileInput.click(); // 숨겨진 파일 입력 요소 클릭
+    });
+
+    // 파일이 선택되었을 때 프로필 이미지 미리보기 및 자동 업로드
+    fileInput.addEventListener("change", function() {
+        if (this.files && this.files[0]) {
+            const file = this.files[0];
+
+            // 미리보기 표시
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const profileImg = document.querySelector(".profileImg:first-child");
+                profileImg.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            // 파일 자동 업로드
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('folderPath', 'profile_img');
+
+            fetch('/api/files', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('서버 오류: ' + response.status);
+                    }
+                    return response.text();
+                })
+                .then(url => {
+                    // 업로드된 이미지 URL을 hidden 필드에 저장
+                    document.getElementById('imgUrl').value = url;
+                    console.log('이미지가 업로드되었습니다:', url);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('업로드 실패: ' + error.message);
+                });
+        }
+    });
+
+    $(document).ready(function() {
+
+        $('.withdraw').click(function (){
+            var form = $(this).closest('form');
+
+            if (confirm("정말 삭제 하시겠습니까?")) {
+                form.attr('action', '/user/delete'); // form action 설정
+                form.submit(); // form 제출
+            }
+        })
+
+    });
+
+    // var deleteTrigger = document.querySelector(".withdraw");
+    // deleteTrigger.addEventListener("click", function (event) {
+    //     event.preventDefault(); // a 태그의 기본 동작(페이지 이동) 방지
+    //
+    //     if (confirm("정말로 탈퇴하시겠습니까?")) {
+    //
+    //         document.getElementById('delete-form').submit();
+    //     }
+    // });
+</script>
