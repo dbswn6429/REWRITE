@@ -18,12 +18,11 @@
 ---
 ### 📦 프로젝트 구성 및 배포
 - **Google Cloud Platform (GCP)**를 활용한 서버 배포
-- Docker 및 Cloud Run을 이용해 컨테이너 기반 서비스 운영
-- 백엔드: Java, Spring Boot, Spring Security
-- 프론트엔드: HTML5, JavaScript, CSS3
-- 데이터베이스: MySQL 사용, **JPA (Hibernate)**를 통한 ORM 구현
-- 인증 및 권한 관리: Spring Security와 JWT를 활용하여 보안 강화
-- 
+- **Docker** 및 **Cloud Run**을 이용해 컨테이너 기반 서비스 운영
+- 백엔드: **Java**, **Spring Boot**, **Spring Security**
+- 프론트엔드: **HTML5**, **JavaScript**, **CSS3**
+- 데이터베이스: **MySQL** 사용, **JPA (Hibernate)**를 통한 ORM 구현
+- 인증 및 권한 관리: **Spring Security**와 **JWT를 활용하여 보안 강화**
 > ⚠️ **주의**: `application-custom.properties` 파일은 Git에 포함되지 않습니다.
 > *직접 `src/main/resources` 경로에 아래 내용을 포함한 파일을 추가해주세요:*
 
