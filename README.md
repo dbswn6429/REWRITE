@@ -45,6 +45,7 @@ mybatis.configuration.map-underscore-to-camel-case=true
 mybatis.type-aliases-package=com.simple.basic.command
 # SQL mapper
 mybatis.mapper-locations=classpath:/mapper/**/*.xml
+```
 </details> 
 
 ---
